@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: client-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: client
+  template:
+    metadata:
+      labels:
+        app: client
+    spec:
+      containers:
+      - name: client
+        image: erezmiz/pr-client
+        env:
+          - name: GOOGLE_ID
+            value: '390457377309-3s09ffl3k5k3np30reud7d6k2vv825aq.apps.googleusercontent.com'
+          - name: GOOGLE_SECRET
+            value: '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'
+          - name: NEXTAUTH_SECRET
+            value: 'ALf+Fcm1vI//FXtVK1ojjCFCE2Y67GYxY6KzU1nb5E8='
+          - name: NEXTAUTH_URL
+            value: 'http://personal-recored.dev'
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: client-srv
+spec:
+  selector:
+    app: client
+  ports:
+  - name: client
+    protocol: TCP
+    port: 3000
+    targetPort: 3000
+      
