@@ -4,7 +4,7 @@ import { OAuth2Client, TokenPayload } from 'google-auth-library';
 declare global {
     namespace Express {
         interface Request {
-            currentUser?: TokenPayload | undefined
+            currentUser?: TokenPayload
         }
     }
 }
