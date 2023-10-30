@@ -1,6 +1,6 @@
 {
-  "name": "@erezmiz-npm/pr-common",
-  "version": "1.0.0",
+  "name": "@erezmiz-pr/pr-common",
+  "version": "1.0.1",
   "description": "",
   "main": "./build/index.js",
   "types": "./build/index.d.ts",
