@@ -23,6 +23,8 @@ spec:
                   key: JWT_KEY
             - name: MONGO_URI
               value: 'mongodb://auth-mongo-srv:27017/auth'
+            - name: GOOGLE_ID
+              value: '390457377309-3s09ffl3k5k3np30reud7d6k2vv825aq.apps.googleusercontent.com'
 ---
 apiVersion: v1
 kind: Service
