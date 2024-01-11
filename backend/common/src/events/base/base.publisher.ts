@@ -5,7 +5,7 @@ import { Event } from "../types/event";
 export abstract class Publisher <T extends Event> {
     abstract readonly queue: T['queue'];
 
-    constructor(private readonly channel: Channel) {}
+    constructor(protected readonly channel: Channel) {}
 
     publish(data: T['data']){
         try {
