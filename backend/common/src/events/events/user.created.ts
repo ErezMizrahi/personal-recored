@@ -4,6 +4,6 @@ export interface UserCreatedEvent {
     queue: Queues.UserCreated,
     data: {
         username: string;
-        image: string;
+        email: string;
     }
 }
