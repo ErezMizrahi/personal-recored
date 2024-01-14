@@ -68,12 +68,10 @@ export const authOptions: NextAuthOptions = {
         },
           async jwt({token, user, account,session, trigger}) {
             if(trigger === 'update') {
-              console.log('update happen????')
               token.isNew = session.isNew;
             }
             // Initial sign in
             if (account && user) {
-              console.log(account.id_token);
                 token.idToken = account.id_token ?? '';
                 token.accessToken = account.access_token ?? '';
                 token.accessTokenExpires = Date.now() + account.expires_at!;

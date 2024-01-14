@@ -13,7 +13,6 @@ export const submitSignupForm = async (event: FormEvent<HTMLFormElement>) => {
      
         // Handle response if necessary
         const data = await response.json()
-        console.log(data);
       } catch (e) {
         console.log(e);
 
