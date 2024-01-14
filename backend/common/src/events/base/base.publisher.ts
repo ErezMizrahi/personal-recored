@@ -1,5 +1,4 @@
 import { Channel } from "amqplib";
-import { Queues } from "../types/queues";
 import { Event } from "../types/event";
 
 export abstract class Publisher <T extends Event> {
@@ -9,7 +8,7 @@ export abstract class Publisher <T extends Event> {
 
     publish(data: T['data']){
         try {
-            this.channel.sendToQueue(this.queue, Buffer.from(data));
+            this.channel.sendToQueue(this.queue, Buffer.from(JSON.stringify(data)));
             console.log('EVENT PUBLISHED TO QUEUE:', this.queue);
 
         } catch(e) {
