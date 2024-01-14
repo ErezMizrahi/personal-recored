@@ -8,11 +8,16 @@ declare module "next-auth/jwt" {
       accessTokenExpires: number;
       accessToken: any;
       refreshToken: string;
-      isNewUser: boolean;
+      isNew: boolean;
     }
   }
   
   declare module "next-auth" {
+    interface User {
+      isNew: boolean;
+
+    }
+
     interface Session {
       user: {
         id: string;
@@ -21,6 +26,12 @@ declare module "next-auth/jwt" {
         image: string;
         idToken?: string;
         isNew: boolean;
+        firstName: string;
+        lastName: string;
+        gender: string;
+        age: string;
+        weight: string;
+        height: string;
       }
     }
   }

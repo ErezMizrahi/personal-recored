@@ -9,7 +9,6 @@ import SideMenu from './SideMenu';
 
 const NavigationMenu = async () => {
     const session = await getServerSession(authOptions);
-
     if(!session?.user) {
         return <AutoSignIn />
     }

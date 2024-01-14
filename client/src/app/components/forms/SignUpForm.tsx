@@ -1,5 +1,3 @@
-import { FormEvent } from 'react'
-import { submitSignupForm } from '../../actions/signup-submit';
 import { revalidatePath } from 'next/cache';
 import styles from './SignUpForm.module.css';
 import nextFetch from '@/app/api/next-fetch';
@@ -33,10 +31,10 @@ const SignUpForm = async () => {
           });
 
       const response = await res.json();
-      revalidatePath('/protected');
-      redirect('/protected')
-
-
+      if(res.ok) {
+        revalidatePath('/signin');
+        redirect('/signin')
+      }
     }
    
     revalidatePath('/signup');

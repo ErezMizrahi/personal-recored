@@ -63,10 +63,14 @@ export const authOptions: NextAuthOptions = {
         async redirect({ url, baseUrl }: { url: string, baseUrl: string }) {
             return Promise.resolve(url);
         },
-        async signIn(params) {
+        async signIn({user, account}) {
           return true;
         },
-          async jwt({token, user, account}) {
+          async jwt({token, user, account,session, trigger}) {
+            if(trigger === 'update') {
+              console.log('update happen????')
+              token.isNew = session.isNew;
+            }
             // Initial sign in
             if (account && user) {
               console.log(account.id_token);
@@ -74,24 +78,20 @@ export const authOptions: NextAuthOptions = {
                 token.accessToken = account.access_token ?? '';
                 token.accessTokenExpires = Date.now() + account.expires_at!;
                 token.refreshToken = account.refresh_token ?? '';
-                token.user = user;
-                
 
                 const res = await nextFetch({
                   service: 'auth',
                   route: '/api/users/me',
                   headersMap: {
-                    'Authorization': `Bearer ${account.id_token}`
+                    'Authorization': `Bearer ${account?.id_token}`
                   }
                 });
-        
+      
                 if(!res.ok) {
-                  console.log(res.status);
-                  token.isNewUser = true;
+                  token.isNew = true;
                 } else {
-                  token.isNewUser = false;
+                  token.isNew = false;
                 }
-
                 return token;
             }
       
@@ -101,13 +101,14 @@ export const authOptions: NextAuthOptions = {
             }
       
             // Access token has expired, try to update it
-            return await refreshAccessToken(token);;
+            return await refreshAccessToken(token);
           },
           async session({session, token}) {
+
             if (token) {
               session.user.idToken = token.idToken;
-              session.user.isNew = token.isNewUser;
               session.user.image = token.picture!;
+              session.user.isNew = token.isNew;
             }
       
             return session

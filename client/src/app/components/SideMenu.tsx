@@ -10,7 +10,8 @@ const SideMenu = () => {
     const menuOptions = [
         { title: 'Home' , href: '/', icon: `/images/home_FILL0_wght400_GRAD0_opsz24.svg` },
         { title: 'Workouts' , href: '/workouts', icon: `/images/home_FILL0_wght400_GRAD0_opsz24.svg`  },
-        { title: 'Protected' , href: '/protected', icon: `/images/home_FILL0_wght400_GRAD0_opsz24.svg`  }
+        { title: 'Protected' , href: '/protected', icon: `/images/home_FILL0_wght400_GRAD0_opsz24.svg`  },
+        { title: 'Personal Information' , href: '/personal-info', icon: `/images/home_FILL0_wght400_GRAD0_opsz24.svg`  }
     ];
   return (
     <SideMenuWidth width={!isOpen ? 200 : 0}>

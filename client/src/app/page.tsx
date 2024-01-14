@@ -8,6 +8,7 @@ export default async function Home() {
   const session = await getServerSession(authOptions);
 
   const isNew = session?.user.isNew;
+  console.log(session?.user)
   if(isNew) {
     redirect('/signup');
   }
