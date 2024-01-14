@@ -3,7 +3,12 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import SessionProvider from './components/SessionProvider';
 import { getServerSession } from 'next-auth';
+import styles from './page.module.css'
+import StyledComponentsRegistry from './lib/registry'
+import { MainContainer } from './components/styled/MainContainer.styled';
+import { Container } from './components/styled/Container.styled';
 import NavigationMenu from './components/NavigationMenu';
+import Theme from './lib/Theme';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -20,12 +25,20 @@ export default async function RootLayout({
   const session =  await getServerSession();
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <SessionProvider session={session}> 
-          <NavigationMenu />
-          {children}
-        </SessionProvider> 
-      </body>
+      <body className={`${inter.className} ${styles.main}`}>
+        <Theme>
+          <MainContainer className={inter.className}>
+            <StyledComponentsRegistry>
+              <SessionProvider session={session}> 
+                <NavigationMenu/>
+                <Container>
+                  {children}
+                </Container>
+              </SessionProvider> 
+            </StyledComponentsRegistry>
+          </MainContainer>
+        </Theme>
+        </body>
     </html>
   )
 }

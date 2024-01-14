@@ -1,6 +1,9 @@
 import { TokenPayload } from "google-auth-library";
 import { InternalUser } from "../models/internal-user.model";
 import { BadRequestError } from "@erezmiz-pr/pr-common";
+import { RegisterUserDetails } from "../types/register-user-details.type";
+import { UserCreatedPublisher } from "../events/publishers/user.created";
+import { rabbitMqWrapper } from "../../amqp/mq.wrapper";
 
 class InternalUserService {
 
@@ -8,7 +11,16 @@ class InternalUserService {
        return await InternalUser.findOne({ email });
     }
 
-    async register(payload: TokenPayload) {
+    async getCurrentUser(payload: TokenPayload) {
+        const user = await this.getUserByEmail(payload.email ?? '');
+        if(!user) {
+            throw new BadRequestError('user dosent exists');
+        }
+
+        return user;
+    }
+
+    async register(userDeatils: RegisterUserDetails, payload: TokenPayload) {
         if(await this.getUserByEmail(payload.email ?? '')) {
             throw new BadRequestError('user already exists');
         }
@@ -16,12 +28,22 @@ class InternalUserService {
         const user = InternalUser.build({
             username: payload.name ?? '',
             email: payload.email ?? '',
-            picture: payload.picture ?? ''
+            picture: payload.picture ?? '',
+            ...userDeatils
         });
 
         await user.save();
-        console.log(user)
+
+        new UserCreatedPublisher(rabbitMqWrapper.channel).publish({
+            username: user.username,
+            email: user.email
+        });
+
         return user;
+    }
+
+    async removeUser() {
+        await InternalUser.deleteMany();
     }
 
 }

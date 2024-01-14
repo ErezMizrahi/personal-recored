@@ -15,10 +15,11 @@
     "ts-jest": "^29.1.1"
   },
   "dependencies": {
-    "@erezmiz-pr/pr-common": "^1.0.8",
+    "@erezmiz-pr/pr-common": "^1.0.12",
     "@types/cookie-session": "^2.0.44",
     "@types/express": "^4.17.17",
     "@types/mongoose": "^5.11.97",
+    "amqplib": "^0.10.3",
     "cookie-session": "^2.0.0",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",

@@ -1,12 +1,13 @@
 import mongoose, { Model, Document, Schema, model } from "mongoose";
+import { RegisterUserDetails } from "../types/register-user-details.type";
 
-interface InternalUserAttrs {
+interface InternalUserAttrs extends RegisterUserDetails {
     username: string;
     email: string;
     picture: string;
 }
 
-interface InternalUserDoc extends Document {
+interface InternalUserDoc extends Document, RegisterUserDetails {
     username: string;
     email: string;
     picture: string;
@@ -28,7 +29,32 @@ const internalUserSchema = new Schema({
     picture: {
         type: String,
         required: true
+    },
+    firstName: {
+        type: String,
+        required: true
+    },
+    lastName: {
+        type: String,
+        required: true
+    },
+    gender: {
+        type: String,
+        required: true
+    },
+    age: {
+        type: String,
+        required: true
+    },
+    weight: {
+        type: String,
+        required: true
+    },
+    height: {
+        type: String,
+        required: true
     }
+    
 }, {
     toJSON: {
         transform(doc, ret) {

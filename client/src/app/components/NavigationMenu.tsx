@@ -1,34 +1,28 @@
-'use client';
-import Link from "next/link";
-import { signIn, signOut, useSession } from "next-auth/react";
+import React from 'react'
+import UserDeatilsIcon from './UserDeatilsIcon';
+import { SideMenuContainer } from './styled/SideMenu.styled';
+import Link from 'next/link';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '../api/auth/[...nextauth]/route';
+import AutoSignIn from './AutoSignIn';
+import SideMenu from './SideMenu';
 
-const AuthButton = () => {
-    const { data: session } = useSession();
+const NavigationMenu = async () => {
+    const session = await getServerSession(authOptions);
 
-    if(session) {
-        return (
-            <>
-                {session?.user?.name} <br />
-                <button onClick={() => signOut()}> Sign out </button>
-            </>
-        );
+    if(!session?.user) {
+        return <AutoSignIn />
+    }
+
+    if(session?.user.isNew) {
+        return null;
     }
 
     return (
-        <>
-            Not signed in <br />
-            <button onClick={() => signIn("google")}> Sign in </button>
-        </>
-    );
-}
-
-
-const NavigationMenu = () => {
-    return (
-        <div>
-            <AuthButton />
-        </div>
+        <SideMenuContainer>
+            <SideMenu/>
+        </SideMenuContainer>
     )
 }
 
-export default NavigationMenu;
+export default NavigationMenu

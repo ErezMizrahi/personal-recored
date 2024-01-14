@@ -8,6 +8,7 @@ declare module "next-auth/jwt" {
       accessTokenExpires: number;
       accessToken: any;
       refreshToken: string;
+      isNewUser: boolean;
     }
   }
   
@@ -17,7 +18,9 @@ declare module "next-auth/jwt" {
         id: string;
         name: string;
         email: string;
+        image: string;
         idToken?: string;
+        isNew: boolean;
       }
     }
   }

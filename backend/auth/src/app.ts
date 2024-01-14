@@ -1,7 +1,6 @@
-import express, { Request, Response } from 'express'
+import express from 'express'
 import 'express-async-errors'
 
-import { OAuth2Client, TokenPayload } from 'google-auth-library';
 import { authRouter } from './routes/auth.route';
 import { NotFoundError, errorHanlder } from '@erezmiz-pr/pr-common';
 

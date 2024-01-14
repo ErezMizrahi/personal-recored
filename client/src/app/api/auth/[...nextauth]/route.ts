@@ -1,6 +1,7 @@
 import NextAuth, { Account, AuthOptions, NextAuthOptions, Session, User } from "next-auth";
 import { JWT } from "next-auth/jwt";
 import GoogleProvider from "next-auth/providers/google";
+import nextFetch from "../../next-fetch";
 
 const GOOGLE_AUTHORIZATION_URL =
   "https://accounts.google.com/o/oauth2/v2/auth?" +
@@ -21,8 +22,6 @@ async function refreshAccessToken(token: any) {
         refresh_token: token.refreshToken,
       })
 
-      // console.log(url)
-
     const response = await fetch(url, {
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
@@ -31,9 +30,6 @@ async function refreshAccessToken(token: any) {
     })
 
     const refreshedTokens = await response.json()
-    // console.log('json')
-    // console.log(refreshedTokens)
-    // console.log('json')
 
     if (!response.ok) {
       throw refreshedTokens
@@ -67,38 +63,55 @@ export const authOptions: NextAuthOptions = {
         async redirect({ url, baseUrl }: { url: string, baseUrl: string }) {
             return Promise.resolve(url);
         },
+        async signIn(params) {
+          return true;
+        },
           async jwt({token, user, account}) {
             // Initial sign in
             if (account && user) {
-              // console.log(account);
+              console.log(account.id_token);
                 token.idToken = account.id_token ?? '';
                 token.accessToken = account.access_token ?? '';
                 token.accessTokenExpires = Date.now() + account.expires_at!;
                 token.refreshToken = account.refresh_token ?? '';
                 token.user = user;
+                
+
+                const res = await nextFetch({
+                  service: 'auth',
+                  route: '/api/users/me',
+                  headersMap: {
+                    'Authorization': `Bearer ${account.id_token}`
+                  }
+                });
+        
+                if(!res.ok) {
+                  console.log(res.status);
+                  token.isNewUser = true;
+                } else {
+                  token.isNewUser = false;
+                }
 
                 return token;
             }
       
-            console.log(new Date(Date.now()), new Date(token.accessTokenExpires))
-
             // Return previous token if the access token has not expired yet
             if (Date.now() < token.accessTokenExpires ) {
               return token
             }
       
             // Access token has expired, try to update it
-            const tok = await refreshAccessToken(token);
-            console.log('tok', tok);
-            return tok;
+            return await refreshAccessToken(token);;
           },
           async session({session, token}) {
             if (token) {
               session.user.idToken = token.idToken;
+              session.user.isNew = token.isNewUser;
+              session.user.image = token.picture!;
             }
       
             return session
-          },
+          }
       }
 }
 
