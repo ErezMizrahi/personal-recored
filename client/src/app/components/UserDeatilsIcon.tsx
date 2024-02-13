@@ -3,8 +3,13 @@ import { signOut, useSession } from 'next-auth/react';
 import Image from 'next/image';
 import React from 'react'
 import { ImageContainer } from './styled/UserDeatilsIcon.styled';
+import { Button } from './styled/CButton.styled';
 
-const UserDeatilsIcon = () => {
+interface UserDeatilsProps { 
+    isMenuOpen: boolean;
+}
+
+const UserDeatilsIcon = ({ isMenuOpen } : UserDeatilsProps) => {
     const { data: session } = useSession();
 
     const handleSignOutAction = () => {
@@ -17,7 +22,7 @@ const UserDeatilsIcon = () => {
             <div>
                 { session?.user.name }
             </div>
-            <button onClick={() => { handleSignOutAction() }}> SignOut? </button>
+            {isMenuOpen && <Button onClick={() => { handleSignOutAction() }}> Logout </Button> }
         </ImageContainer>
     )
 }

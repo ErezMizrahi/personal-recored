@@ -23,6 +23,7 @@ const PersonalInfo = async () => {
 
     if(res.ok) {
       const json = await res.json();
+      console.log(json)
       return json;
     } 
   }
@@ -33,16 +34,16 @@ const PersonalInfo = async () => {
     <CenteredDiv>
       <CenteredImage>
         <Image src={session.user.image} height={100} width={100} alt='profile image'
-         style={{borderRadius: '50%', border: '10px solid var(--color-darkest)'}}
+         style={{borderRadius: '50%', border: '10px solid #e9f0f4'}}
          />
       </CenteredImage>
-      <div>{firstName}</div>
-      <div>{lastName}</div>
-      <div>{age}</div>
-      <div>{gender}</div>
-      <div>{height}</div>
-      <div>{weight}</div>
-    </CenteredDiv>
+        <p>{firstName}</p>
+        <p>{lastName}</p>
+        <p>{age}</p>
+        <p>{gender}</p>
+        <p>{height}</p>
+        <p>{weight}</p>
+      </CenteredDiv>
   )
 }
 

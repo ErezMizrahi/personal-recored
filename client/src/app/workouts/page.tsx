@@ -1,13 +1,42 @@
 import { getServerSession } from 'next-auth'
+import { redirect } from 'next/navigation';
 import React from 'react'
+import PRButton from '../components/ui/PRButton';
 
 const Workouts = async () => {
   const session = await getServerSession();
   if(!session || !session.user) {
-    // redirect('/api/auth/signin');
+    redirect('/');
   }
+
+  const clickHandlers = {
+    create: {
+      onClick: {
+        redirect: '/workouts/create'
+      } 
+    },
+    myPrograms: {
+      onClick: {
+        func: async () =>  { 
+          'use server';
+          console.log('erez!')
+        }
+      } 
+    }
+  }
+
+  const redirectToCreate = () => redirect('/create');
   return (
-    <div>Workouts</div>
+    <div>
+       <div>
+        <h2>My Programs</h2>
+        <PRButton onAction={clickHandlers.myPrograms}>Create</PRButton>
+      </div>
+      <div>
+        <h2>Create a workout program</h2>
+        <PRButton onAction={clickHandlers.create}>Create</PRButton>
+      </div>
+    </div>
   )
 }
 

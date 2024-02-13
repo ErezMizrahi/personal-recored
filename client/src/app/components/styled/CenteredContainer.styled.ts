@@ -8,10 +8,11 @@ justify-content: center;
 align-items: center;
 height: 100%;
 width: 100%;
+color: ${props => props.theme.colors.light}
 `;
 
 export const CenteredDiv = styled.div`
-background-color: var(--color-light);
+background-color: ${props => props.theme.colors.dark};
 border-radius: 10px;
 padding: 4rem;
 width: 30rem;

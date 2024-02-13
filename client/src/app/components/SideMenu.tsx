@@ -14,17 +14,20 @@ const SideMenu = () => {
         { title: 'Personal Information' , href: '/personal-info', icon: `/images/home_FILL0_wght400_GRAD0_opsz24.svg`  }
     ];
   return (
-    <SideMenuWidth width={!isOpen ? 200 : 0}>
+    <SideMenuWidth width={isOpen ? '200px' : '40px'}>
         <button onClick={() => setIsOpen(prev => !prev)}>{isOpen ? 'close' : 'open'}</button>
-        <div style={{width: '100%'}}>
-            <UserDeatilsIcon />
-        </div>
+            <div style={{width: '100%'}}>
+                <UserDeatilsIcon isMenuOpen={isOpen} />
+            </div>
+        
             <LinkListContainer>
                 { menuOptions.map((item, index) => (
                     <React.Fragment key={`${item.title}-${index}`}>
-                    <ListItemWithImage icon={item.icon}>
-                        <Link href={item.href}> {item.title} </Link>
-                    </ListItemWithImage>
+                    <Link href={item.href}>
+                        <ListItemWithImage icon={item.icon}>
+                            {isOpen && item.title} 
+                        </ListItemWithImage>
+                    </Link>
                     </React.Fragment>
                     
                 ))}

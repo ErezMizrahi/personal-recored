@@ -6,7 +6,8 @@ import { MainContainer } from './components/styled/MainContainer.styled';
 
 export default async function Home() {
   const session = await getServerSession(authOptions);
-
+  console.log(session);
+  
   const isNew = session?.user.isNew;
   if(isNew) {
     redirect('/signup');

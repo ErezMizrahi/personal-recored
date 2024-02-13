@@ -5,7 +5,7 @@ interface InternalUserAttrs {
     email: string;
 }
 
-interface InternalUserDoc extends Document {
+export interface InternalUserDoc extends Document {
     username: string;
     email: string;
 }

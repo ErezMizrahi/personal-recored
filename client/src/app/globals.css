@@ -1,12 +1,17 @@
+@font-face {
+  font-family: 'OpanSans';
+  src: url('../../public/fonts/OpenSans-Regular.ttf');
+}
+
 :root {
-  --color-darkest:#161A30;
+  /* --color-darkest:#161A30;
   --color-darkest-opacity:#161A3090;
   --color-dark:#31304D;
   --color-dark-opacity:#31304D80;
   --color-light:#B6BBC4;
   --color-light-opacity:#B6BBC440;
   --color-lightest:#F0ECE5;
-  --color-lightest-opacity:#F0ECE570;
+  --color-lightest-opacity:#F0ECE570; */
 
 
   --max-width: 1100px;
@@ -50,6 +55,8 @@
   --card-border-rgb: 131, 134, 135;
 }
 
+
+
 @media (prefers-color-scheme: dark) {
   :root {
     --foreground-rgb: 255, 255, 255;
@@ -87,6 +94,7 @@
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+  font-family: 'OpanSans';
 }
 
 html,

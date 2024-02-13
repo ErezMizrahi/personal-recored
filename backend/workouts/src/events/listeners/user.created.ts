@@ -9,11 +9,13 @@ export class UserCreatedListener extends Listener<UserCreatedEvent> {
         try {
             if(!msg) throw Error('Object of type ConsumeMessage is null. cant consume this message.');
 
-            await InternalUser.build({
-                username: data.username,
-                email: data.email
-            }).save();
-
+            const user = await InternalUser.findOne({email: data.email});
+            if(!user) {
+                await InternalUser.build({
+                    username: data.username,
+                    email: data.email
+                }).save();
+            }
 
             this.channel.ack(msg);
         } catch(e) {
