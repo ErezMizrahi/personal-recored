@@ -4,6 +4,7 @@ import { authOptions } from '../api/auth/[...nextauth]/route'
 import { redirect } from 'next/navigation';
 import SignUpForm from '../components/forms/SignUpForm';
 import styles from './signup.module.css';
+import { FormContainer } from '../components/styled/FormContainer.styled';
 
 const Signup = async () => {
     const session = await getServerSession(authOptions);
@@ -12,9 +13,9 @@ const Signup = async () => {
     }
 
   return (
-    <div className={styles.formContainer}>
+    <FormContainer>
       <SignUpForm />
-    </div>
+    </FormContainer>
   )
 }
 

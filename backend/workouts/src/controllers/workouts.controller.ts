@@ -1,10 +1,11 @@
 import { Request, Response } from "express";
-import { InternalUser } from "../models/internal-user.model";
+import workoutProgramService from "../services/workout-program";
 
-export const test = async (req: Request, res: Response) => {
-      const user  = await InternalUser.findOne({email: 'erezm@webtech-inv.co.il'});
+export const createProgram = async (req: Request, res: Response) => {
+    console.log('he')
+    const program = await workoutProgramService.createProgram('a', req.currentUser!);
     res.json({ 
-        message: user
+        message: program
     });
     res.end();
 }

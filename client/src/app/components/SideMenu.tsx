@@ -6,7 +6,7 @@ import { LinkListContainer, ListItemWithImage, SideMenuWidth } from './styled/Si
 
 
 const SideMenu = () => {
-    const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(true);
     const menuOptions = [
         { title: 'Home' , href: '/', icon: `/images/home_FILL0_wght400_GRAD0_opsz24.svg` },
         { title: 'Workouts' , href: '/workouts', icon: `/images/home_FILL0_wght400_GRAD0_opsz24.svg`  },

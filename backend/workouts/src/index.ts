@@ -7,11 +7,9 @@ dotenv.config()
 
 
 const start = async () => {
-    console.log('starting up');
     try {
         if(!process.env.MONGO_URI) throw new Error('MONGO_URI must be defiend');
         if(!process.env.RABBIT_MQ_CONNECTION) throw new Error('RABBIT_MQ_CONNECTION be defiend');
-
 
 
         await mongoose.connect(process.env.MONGO_URI);
@@ -19,11 +17,17 @@ const start = async () => {
 
         await rabbitMqWrapper.connect(process.env.RABBIT_MQ_CONNECTION);
 
-        process.on('SIGINT', () =>  closeConnections());
-        process.on('SIGTERM', () => closeConnections());
+        process.on('SIGINT', async () =>  {
+            await rabbitMqWrapper.closeConnections();
+            process.exit(0);
+        } );
+        process.on('SIGTERM', async () =>  {
+            await rabbitMqWrapper.closeConnections();
+            process.exit(0);
+        });
 
-        app.listen(4001, () => {
-            console.log('listening on port 4001');
+        app.listen(process.env.PORT, () => {
+            console.log(`listening on port ${process.env.PORT}`);
 
             //queue listeners
             console.log('adding listeners')
@@ -32,11 +36,6 @@ const start = async () => {
     } catch (e) {
         console.error(e)
     }
-}
-
-const closeConnections = () => {
-    rabbitMqWrapper.channel.close();
-    rabbitMqWrapper.conenction.close();
 }
 
 

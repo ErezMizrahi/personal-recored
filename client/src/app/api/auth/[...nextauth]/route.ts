@@ -103,6 +103,7 @@ export const authOptions: NextAuthOptions = {
             return await refreshAccessToken(token);
           },
           async session({session, token}) {
+            // console.log(token)
 
             if (token) {
               session.user.idToken = token.idToken;

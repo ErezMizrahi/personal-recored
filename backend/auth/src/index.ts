@@ -17,6 +17,15 @@ const start = async () => {
 
         await rabbitMqWrapper.connect(process.env.RABBIT_MQ_CONNECTION);
 
+        process.on('SIGINT', async () =>  {
+            await rabbitMqWrapper.closeConnections();
+            process.exit(0);
+        } );
+        process.on('SIGTERM', async () =>  {
+            await rabbitMqWrapper.closeConnections();
+            process.exit(0);
+        });
+
         app.listen(4000, () => {
             console.log('listening on port 4000');
         });

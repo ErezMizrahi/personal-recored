@@ -28,7 +28,7 @@ const internalUserSchema = new Schema({
     },
     picture: {
         type: String,
-        required: true
+        required: false
     },
     firstName: {
         type: String,

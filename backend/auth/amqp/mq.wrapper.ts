@@ -2,7 +2,7 @@ import { Channel, Connection, connect } from "amqplib";
 
 class RabbitMqWrapper {
     private _channel?: Channel;
-    private _conenction?: Connection;
+    private _connection?: Connection;
 
     get channel() {
         if(!this._channel) throw new Error('cant access rabbit mq channel before connection to the server!')
@@ -10,8 +10,8 @@ class RabbitMqWrapper {
     }
 
     get conenction() {
-        if(!this._conenction) throw new Error('cant access rabbit mq conenction  before connection to the server!')
-        return this._conenction;
+        if(!this._connection) throw new Error('cant access rabbit mq conenction  before connection to the server!')
+        return this._connection;
     }
 
     async connect(connectionString: string, retry = 3) {
@@ -24,7 +24,7 @@ class RabbitMqWrapper {
             const connection = await connect(connectionString);
             const channel = await connection.createChannel();
             this._channel = channel;
-            this._conenction = connection;
+            this._connection = connection;
             console.log('Successfully connected to RabbitMQ');
 
         } catch (e) {
@@ -32,6 +32,17 @@ class RabbitMqWrapper {
             console.log(`retry ammount is: ${retry}. trying again in 1 second...`)
             await new Promise((resolve, reject) => setTimeout((e) => {resolve(e)} , 15000));
             this.connect(connectionString, --retry);
+        }
+    }
+
+    async closeConnections() {
+        if (this._channel) {
+            await this._channel.close();
+            console.log('RabbitMQ channel closed');
+        }
+        if (this._connection) {
+            await this._connection.close();
+            console.log('RabbitMQ connection closed');
         }
     }
 }

@@ -40,7 +40,7 @@ services:
       - mongodb
     volumes:
       - ./backend/auth:/usr/src/app
-      # - /usr/src/app/node_modules
+      - /usr/src/app/node_modules
     hostname: auth
     ports:
       - "4000:4000"
@@ -58,10 +58,27 @@ services:
       - mongodb
     volumes:
       - ./backend/workouts:/usr/src/app
-      # - /usr/src/app/node_modules
+      - /usr/src/app/node_modules
     hostname: workouts
     ports:
       - "4001:4001"
 
+
+  exercises:
+    restart: always
+    build:
+      context: ./backend/exercises
+      dockerfile: Dockerfile
+    command: npm start
+    env_file:
+     - ./backend/exercises/.env
+    depends_on:
+      - mongodb
+    volumes:
+      - ./backend/exercises:/usr/src/app
+      - /usr/src/app/node_modules
+    hostname: exercises
+    ports:
+      - "4002:4002"
 volumes:
   dbdata6:

@@ -9,7 +9,7 @@
 
 
   .formContainer {
-    background-color: var(--color-light);
+    background-color: var(--color-dark);
     border-radius: 10px;
     padding: 4rem;
     width: 30rem;

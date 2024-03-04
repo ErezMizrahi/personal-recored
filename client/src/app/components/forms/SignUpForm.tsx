@@ -1,9 +1,11 @@
 import { revalidatePath } from 'next/cache';
-import styles from './SignUpForm.module.css';
+// import styles from './SignUpForm.module.css';
 import nextFetch from '@/app/api/next-fetch';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import { redirect } from 'next/navigation';
+import { CButton } from '../styled/CButton.styled';
+import { Form, FormInput } from '../styled/FormContainer.styled';
 
 const SignUpForm = async () => {
 
@@ -17,6 +19,8 @@ const SignUpForm = async () => {
       weight: formData.get('weight'),
       height: formData.get('height')
     }
+
+    console.log('body', body)
 
     const session = await getServerSession(authOptions);
     if(session?.user) {
@@ -40,12 +44,12 @@ const SignUpForm = async () => {
     revalidatePath('/signup');
   }
       return (
-          <form className={styles.form} action={submitSignupForm}>
-            <label htmlFor='firstName'>First Name</label>
-            <input type="text" name="firstName" />
+        <Form action={submitSignupForm}>
+<label htmlFor='firstName'>First Name</label>
+            <FormInput type="text" name="firstName" />
 
             <label htmlFor='lastName'>Last Name</label>
-            <input type="text" name="lastName" />
+            <FormInput type="text" name="lastName" />
 
             <label htmlFor='gender'>Gender</label>
             <select name='gender'>
@@ -54,16 +58,17 @@ const SignUpForm = async () => {
             </select>
 
             <label htmlFor='age'>Age</label>
-            <input type="text" name="age" />
+            <FormInput type="text" name="age" />
 
             <label htmlFor='weight'>Current Weight</label>
-            <input type="text" name="weight" />
+            <FormInput type="text" name="weight" />
 
             <label htmlFor='height'>Height</label>
-            <input type="text" name="height" />
+            <FormInput type="text" name="height" />
 
-            <button type="submit">Submit</button>
-          </form>
+            {/* <button type="submit">Submit</button> */}
+            <CButton type='submit'>Submit</CButton>
+        </Form>
       )
 }
 

@@ -21,12 +21,13 @@ class InternalUserService {
     }
 
     async register(userDeatils: RegisterUserDetails, payload: TokenPayload) {
+        console.log('payload', payload)
         if(await this.getUserByEmail(payload.email ?? '')) {
             throw new BadRequestError('user already exists');
         }
 
         const user = InternalUser.build({
-            username: payload.name ?? '',
+            username: payload.name ?? this.extractUsername(payload.email),
             email: payload.email ?? '',
             picture: payload.picture ?? '',
             ...userDeatils
@@ -46,6 +47,13 @@ class InternalUserService {
         await InternalUser.deleteMany();
     }
 
+    private extractUsername(email?: string): string {
+        if(email) {
+            const username = email.split('@')[0];
+            return username;
+        }
+        return 'undefined';
+    }
 }
 
 const internalUserService = new InternalUserService();
