@@ -81,7 +81,6 @@ services:
     env_file:
      - ./backend/exercises/.env
     depends_on:
-      - mongodb
       - elasticsearch
     volumes:
       - ./backend/exercises:/usr/src/app

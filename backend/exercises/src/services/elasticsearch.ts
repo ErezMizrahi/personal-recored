@@ -59,12 +59,13 @@ class ElasticSearchService {
         await this._client.indices.refresh({ index: process.env.ELASTIC_INDEX! })
     }
 
-    async search(by: SearchByOptions, query: string) {
-        console.log({[by]: query})
+    async search(by: SearchByOptions, query: string, from: number) {
         const body  = await this._client.search({
             index: process.env.ELASTIC_INDEX!,
             body: {
                 sort: ["_score"],
+                size: 10,
+                from: from,
                 query: {
                     bool: {
                         must: [
@@ -73,17 +74,19 @@ class ElasticSearchService {
                                     [by]: query 
                                 }
                             },
-                            {
-                                match: {
-                                    force: 'push' 
-                                }
-                            }
+                            // {
+                                // match: {
+                                //     force: 'push' 
+                                // }
+                            // }
                         ]
                     }
                 }
             }
-          })
-          console.log(body.hits.hits)
+          });
+
+          return body.hits.hits
+          .map(item => item._source)
     }
 }
 

@@ -1,12 +1,11 @@
 import { Router } from "express";
 import { currentUser, requireAuth, validateRquest } from "@erezmiz-pr/pr-common";
-import { load, cleanDb, searchByName } from "../controllers/excersies.controller";
+import { load, searchByName } from "../controllers/excersies.controller";
 import { param, query } from "express-validator";
 
 const router = Router();
 
 router.get('/load', load);
-router.get('/clean', cleanDb);
 
 router.get('/search/:by', [
     param('by')
