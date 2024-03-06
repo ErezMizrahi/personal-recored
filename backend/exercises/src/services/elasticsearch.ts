@@ -88,6 +88,10 @@ class ElasticSearchService {
           return body.hits.hits
           .map(item => item._source)
     }
+
+    async cleanData() {
+        await this._client.indices.delete({ index: process.env.ELASTIC_INDEX!});
+    }
 }
 
 const searchService = new ElasticSearchService();

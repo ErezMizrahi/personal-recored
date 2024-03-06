@@ -1,3 +1,4 @@
+import searchService from "../services/elasticsearch";
 import excersiesService, { SearchByOptions } from "../services/exercises";
 import { Request, Response } from "express";
 
@@ -6,10 +7,10 @@ export const load = async (req: Request, res: Response) => {
     res.status(200).send();
 }
 
-// export const cleanDb = async (req: Request, res: Response) => {
-//     await excersiesService.cleanDb();
-//     res.status(200).send();
-// }
+export const cleanDb = async (req: Request, res: Response) => {
+    await searchService.cleanData();
+    res.status(200).send();
+}
 
 export const searchByName = async (req: Request, res: Response) => {
     const by = req.params.by as SearchByOptions;
