@@ -9,7 +9,8 @@ import { FormContainer } from '../components/styled/FormContainer.styled';
 const Signup = async () => {
     const session = await getServerSession(authOptions);
     if(!session?.user) {
-        redirect('/api/auth/login');
+      console.log("eliyahu check")
+        redirect('/api/auth/login')
     }
 
   return (
