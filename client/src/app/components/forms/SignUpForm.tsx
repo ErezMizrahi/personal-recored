@@ -7,7 +7,7 @@ import { redirect } from 'next/navigation';
 import { CButton } from '../styled/CButton.styled';
 import { Form, FormInput } from '../styled/FormContainer.styled';
 
-const SignUpForm = async () => {
+const SignUpForm = () => {
 
   const submitSignupForm = async (formData: FormData) => {
     'use server';
