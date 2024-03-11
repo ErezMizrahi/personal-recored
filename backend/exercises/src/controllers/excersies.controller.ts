@@ -1,5 +1,5 @@
 import searchService from "../services/elasticsearch";
-import excersiesService, { SearchByOptions } from "../services/exercises";
+import excersiesService from "../services/exercises";
 import { Request, Response } from "express";
 
 export const load = async (req: Request, res: Response) => {
@@ -12,12 +12,15 @@ export const cleanDb = async (req: Request, res: Response) => {
     res.status(200).send();
 }
 
-export const searchByName = async (req: Request, res: Response) => {
-    const by = req.params.by as SearchByOptions;
-    const query = req.query.query as string;
-    const from = req.query.from as string;
-    console.log('by', by, 'from', from)
-    
-    const excersies = await excersiesService.search(by, query, from);
+export const search = async (req: Request<SearchOptions>, res: Response) => {
+    const filters = req.query;
+    const excersies = await excersiesService.search(filters);
     res.status(200).send(excersies);
+}
+
+export interface SearchOptions {
+    name?: string;
+    level?: string;
+    category?: string;
+    from?: number;
 }

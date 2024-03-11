@@ -1,12 +1,7 @@
 import fs from 'fs/promises';
 import path from 'path';
 import searchService from './elasticsearch';
-
-export enum SearchByOptions {
-    name = 'name',
-    level= 'level',
-    category= 'category'
-}
+import { SearchOptions } from '../controllers/excersies.controller';
 
 class ExercisesService {
     async loadFromJson() {
@@ -19,11 +14,38 @@ class ExercisesService {
         console.log('done');
     }
 
-    async search(by: SearchByOptions, query: string, from: string) {
-        const fromNumber = parseInt(from);
-        return await searchService.search(by, query, fromNumber);
+    async search(filters: SearchOptions) {
+        const queryString = Object.entries(filters)
+        .filter(([key, _]) => key !== 'from')
+        .map(([key, value]) => {
+            if(key === 'name') {
+                return `${key}:"${value.split(' ').join('*')}"`;
+            }
+            return `${key}:${value}`;
+        })
+        .join(' AND ');
+
+        const body = {
+            sort: ["_score"],
+            size: 10,
+            from: filters.from!,
+            query: {
+                query_string: {
+                    query: queryString
+                }
+            }
+        };
+
+        return await searchService.search(body, filters.from!);
     }
  }
 
 const excersiesService = new ExercisesService();
 export default excersiesService;
+
+
+export interface WildcardSearch { 
+    wildcard : {
+        [x:string]: { value : any, 'case_insensitive': boolean }
+    }
+}

@@ -1,5 +1,6 @@
 import { Client } from "@elastic/elasticsearch";
-import { SearchByOptions } from "./exercises";
+import { SearchOptions } from "../controllers/excersies.controller";
+import { WildcardSearch } from "./exercises";
 
 class ElasticSearchService {
     private readonly _client;
@@ -16,7 +17,34 @@ class ElasticSearchService {
 
     async createIndex() {
         try {
-            await this._client.indices.create({ index: process.env.ELASTIC_INDEX! });
+            await this._client.indices.create({ 
+                index: process.env.ELASTIC_INDEX!,
+                // body: {
+                //     settings: {
+                //         analysis: {
+                //             analyzer: {
+                //                 custom_analyzer: {
+                //                     type: "custom",
+                //                     tokenizer: "standard",
+                //                     filter: ["lowercase", "substring", "whitespace"]
+                //                 }
+                //             },
+                //             filter: {
+                //                 substring: {
+                //                   type: "ngram",
+                //                   min_gram: 2,
+                //                   max_gram: 15
+                //                 }
+                //               }
+                //         }
+                //     }
+                // },
+                // mappings: {
+                //     properties: {
+                //         name: { type: 'text', analyzer: 'custom_analyzer'},
+                //     }
+                // }
+            });
             console.log(`Created index ${process.env.ELASTIC_INDEX!}`);
         } catch(e) {
             console.error(`An error occurred while creating the index ${process.env.ELASTIC_INDEX!}:`);
@@ -59,29 +87,12 @@ class ElasticSearchService {
         await this._client.indices.refresh({ index: process.env.ELASTIC_INDEX! })
     }
 
-    async search(by: SearchByOptions, query: string, from: number) {
+    async search(mappings:any, from: number) {
+        console.log(JSON.stringify(mappings))
         const body  = await this._client.search({
             index: process.env.ELASTIC_INDEX!,
-            body: {
-                sort: ["_score"],
-                size: 10,
-                from: from,
-                query: {
-                    bool: {
-                        must: [
-                            {
-                                match: {
-                                    [by]: query 
-                                }
-                            },
-                            // {
-                                // match: {
-                                //     force: 'push' 
-                                // }
-                            // }
-                        ]
-                    }
-                }
+            body: { 
+                ...mappings
             }
           });
 
