@@ -5,8 +5,11 @@ const theme = {
     colors: {
         dark : '#23292d',
         secondary: '#2c3135',
-        primary : '#ed5050',
-        light : '#e9f0f4',
+        primary : '#FF9D74',
+        primaryHover : '#e9f0f4',
+        borderPrimary:'#FF9D74',
+        textColorPrimary:'#7a828c',
+        greenPrimary:'#C8EABA'
     }
 }
 

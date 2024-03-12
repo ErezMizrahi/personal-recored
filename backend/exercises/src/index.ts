@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+
 import { app } from "./app";
 import dotenv from 'dotenv'
 import searchService from "./services/elasticsearch";

@@ -21,6 +21,7 @@ class ExercisesService {
 
     async search(by: SearchByOptions, query: string, from: string) {
         const fromNumber = parseInt(from);
+       
         return await searchService.search(by, query, fromNumber);
     }
  }

@@ -60,7 +60,7 @@ class ElasticSearchService {
     }
 
     async search(by: SearchByOptions, query: string, from: number) {
-        const body  = await this._client.search({
+        const response = await this._client.search({
             index: process.env.ELASTIC_INDEX!,
             body: {
                 sort: ["_score"],
@@ -84,9 +84,12 @@ class ElasticSearchService {
                 }
             }
           });
-
-          return body.hits.hits
-          .map(item => item._source)
+          
+          if ('hits' in response.body && 'hits' in response.body.hits) {
+            return response.body.hits.hits.map((item: any) => item._source);
+        } else {
+            throw new Error('Unexpected response structure');
+        }
     }
 
     async cleanData() {
