@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { currentUser, requireAuth, validateRquest } from "@erezmiz-pr/pr-common";
-import { cleanDb, load, searchByName } from "../controllers/excersies.controller";
+import { cleanDb, load, search } from "../controllers/excersies.controller";
 import { param, query } from "express-validator";
 
 const router = Router();
@@ -8,15 +8,13 @@ const router = Router();
 router.get('/load', load);
 router.get('/clean', cleanDb);
 
-router.get('/search/:by', [
-    param('by')
-        .trim()
-        .toLowerCase()
-        .isIn(['name', 'level', 'category'])
-        .withMessage("search by is invalid"),
-    query('query')
+router.get('/search', [
+    query('name')
         .notEmpty()
-        .withMessage("must have a query")
-], validateRquest, searchByName);
+        .withMessage("must search by name"),
+    query('from')
+        .notEmpty()
+        .withMessage("must have a from")
+], validateRquest, search);
 
 export { router as excersiesRouter };

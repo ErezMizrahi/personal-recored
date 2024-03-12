@@ -1,14 +1,12 @@
 import fs from 'fs/promises';
 import path from 'path';
 import searchService from './elasticsearch';
-
-export enum SearchByOptions {
-    name = 'name',
-    level= 'level',
-    category= 'category'
-}
+import { SearchResponse, SearchTotalHits } from '@elastic/elasticsearch/lib/api/types';
+import { SearchOptions } from '../utils/types/searchOptions.type';
+import { FILTERS } from '../utils/constants';
 
 class ExercisesService {
+
     async loadFromJson() {
         const excersiesJson = JSON.parse( await fs.readFile(path.resolve('src/services/data/exercises.json'), 'utf-8') );
         for(const exercise of excersiesJson.exercises) {
@@ -19,12 +17,52 @@ class ExercisesService {
         console.log('done');
     }
 
-    async search(by: SearchByOptions, query: string, from: string) {
-        const fromNumber = parseInt(from);
-       
-        return await searchService.search(by, query, fromNumber);
+    async search(filters: SearchOptions) {
+        const queryFilters = Object.entries(filters)
+        .filter(([key, _]) => !FILTERS.IGNORED_FILTERS.includes(key))
+        .map(([key, value]) => `${key}:${value}`)
+        .join(' AND ');
+
+        const body = {
+            sort: ["_score"],
+            size: 10,
+            from: filters.from!,
+            query: {
+                bool: {
+                    must: [
+                        {
+                            match_phrase_prefix: {
+                                name: filters.name
+                            }
+                        },
+                        {
+                            query_string: {
+                                query: queryFilters || "*"
+                            }
+                        }
+                    ]
+                }
+            }
+        };
+
+        const results =  await searchService.search(body);
+        return this.buildSearchResponse(results);
+    }
+
+    private buildSearchResponse(result: SearchResponse) {
+        const { value } = result.hits.total as SearchTotalHits;
+        
+        return {
+            metadata: {
+                total: value,
+                max_score: result.hits.max_score
+            },
+            data: result.hits.hits.map(item => item._source)
+        }
     }
  }
 
 const excersiesService = new ExercisesService();
 export default excersiesService;
+
+

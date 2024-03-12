@@ -1,5 +1,4 @@
 import { Client } from "@elastic/elasticsearch";
-import { SearchByOptions } from "./exercises";
 
 class ElasticSearchService {
     private readonly _client;
@@ -16,7 +15,14 @@ class ElasticSearchService {
 
     async createIndex() {
         try {
-            await this._client.indices.create({ index: process.env.ELASTIC_INDEX! });
+            await this._client.indices.create({ 
+                index: process.env.ELASTIC_INDEX!,
+                mappings: {
+                    properties: {
+                        name: { type: 'search_as_you_type'},
+                    }
+                }
+            });
             console.log(`Created index ${process.env.ELASTIC_INDEX!}`);
         } catch(e) {
             console.error(`An error occurred while creating the index ${process.env.ELASTIC_INDEX!}:`);
@@ -59,37 +65,14 @@ class ElasticSearchService {
         await this._client.indices.refresh({ index: process.env.ELASTIC_INDEX! })
     }
 
-    async search(by: SearchByOptions, query: string, from: number) {
-        const response = await this._client.search({
+    async search(query:any) {
+        // console.log(JSON.stringify(query))
+        return await this._client.search({
             index: process.env.ELASTIC_INDEX!,
-            body: {
-                sort: ["_score"],
-                size: 10,
-                from: from,
-                query: {
-                    bool: {
-                        must: [
-                            {
-                                match: {
-                                    [by]: query 
-                                }
-                            },
-                            // {
-                                // match: {
-                                //     force: 'push' 
-                                // }
-                            // }
-                        ]
-                    }
-                }
+            body: { 
+                ...query
             }
           });
-          
-          if ('hits' in response.body && 'hits' in response.body.hits) {
-            return response.body.hits.hits.map((item: any) => item._source);
-        } else {
-            throw new Error('Unexpected response structure');
-        }
     }
 
     async cleanData() {
