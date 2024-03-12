@@ -4,7 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "ts-node-dev --poll src/index.ts"
+    "start": "ts-node-dev --poll src/index.ts",
+    "test": "jest --watchAll --no-cache"
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "setupFilesAfterEnv": [
+      "./src/test/setup.ts"
+    ]
   },
   "devDependencies": {
     "@types/jest": "^29.5.3",
@@ -15,7 +23,7 @@
     "ts-jest": "^29.1.1"
   },
   "dependencies": {
-    "@erezmiz-pr/pr-common": "^1.0.12",
+    "@erezmiz-pr/pr-common": "^1.0.14",
     "@types/cookie-session": "^2.0.44",
     "@types/express": "^4.17.17",
     "@types/mongoose": "^5.11.97",

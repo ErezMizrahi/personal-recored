@@ -1,9 +1,9 @@
 import fs from 'fs/promises';
 import path from 'path';
 import searchService from './elasticsearch';
-import { SearchResponse, SearchTotalHits } from '@elastic/elasticsearch/lib/api/types';
 import { SearchOptions } from '../utils/types/searchOptions.type';
 import { FILTERS } from '../utils/constants';
+import { SearchHit, SearchResponse, SearchTotalHits } from '@elastic/elasticsearch/api/types';
 
 class ExercisesService {
 
@@ -45,7 +45,7 @@ class ExercisesService {
             }
         };
 
-        const results =  await searchService.search(body);
+        const results =  (await searchService.search(body)).body as SearchResponse;
         return this.buildSearchResponse(results);
     }
 
@@ -57,7 +57,7 @@ class ExercisesService {
                 total: value,
                 max_score: result.hits.max_score
             },
-            data: result.hits.hits.map(item => item._source)
+            data: result.hits.hits.map((item: SearchHit) => item._source)
         }
     }
  }
