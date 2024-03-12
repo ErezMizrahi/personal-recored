@@ -22,7 +22,10 @@ export const currentUser = async (req: Request, res: Response, next: NextFunctio
             sub: "",
             aud: "",
             iat: 0,
-            exp: 0
+            exp: 0,
+            email: 'test@gmail.com',
+            name: 'test2',
+            picture: ''
         }
         return next();
     }
