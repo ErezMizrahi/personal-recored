@@ -17,9 +17,11 @@ class ElasticSearchService {
         try {
             await this._client.indices.create({ 
                 index: process.env.ELASTIC_INDEX!,
-                mappings: {
-                    properties: {
-                        name: { type: 'search_as_you_type'},
+                body: {
+                    mappings: {
+                        properties: {
+                            name: { type: 'search_as_you_type'},
+                        }
                     }
                 }
             });
@@ -82,3 +84,4 @@ class ElasticSearchService {
 
 const searchService = new ElasticSearchService();
 export default searchService;
+
