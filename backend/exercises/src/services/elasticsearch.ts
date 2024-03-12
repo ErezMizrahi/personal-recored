@@ -1,6 +1,4 @@
 import { Client } from "@elastic/elasticsearch";
-import { SearchOptions } from "../controllers/excersies.controller";
-import { WildcardSearch } from "./exercises";
 
 class ElasticSearchService {
     private readonly _client;
@@ -19,31 +17,11 @@ class ElasticSearchService {
         try {
             await this._client.indices.create({ 
                 index: process.env.ELASTIC_INDEX!,
-                // body: {
-                //     settings: {
-                //         analysis: {
-                //             analyzer: {
-                //                 custom_analyzer: {
-                //                     type: "custom",
-                //                     tokenizer: "standard",
-                //                     filter: ["lowercase", "substring", "whitespace"]
-                //                 }
-                //             },
-                //             filter: {
-                //                 substring: {
-                //                   type: "ngram",
-                //                   min_gram: 2,
-                //                   max_gram: 15
-                //                 }
-                //               }
-                //         }
-                //     }
-                // },
-                // mappings: {
-                //     properties: {
-                //         name: { type: 'text', analyzer: 'custom_analyzer'},
-                //     }
-                // }
+                mappings: {
+                    properties: {
+                        name: { type: 'search_as_you_type'},
+                    }
+                }
             });
             console.log(`Created index ${process.env.ELASTIC_INDEX!}`);
         } catch(e) {
@@ -87,17 +65,14 @@ class ElasticSearchService {
         await this._client.indices.refresh({ index: process.env.ELASTIC_INDEX! })
     }
 
-    async search(mappings:any, from: number) {
-        console.log(JSON.stringify(mappings))
-        const body  = await this._client.search({
+    async search(query:any) {
+        // console.log(JSON.stringify(query))
+        return await this._client.search({
             index: process.env.ELASTIC_INDEX!,
             body: { 
-                ...mappings
+                ...query
             }
           });
-
-          return body.hits.hits
-          .map(item => item._source)
     }
 
     async cleanData() {

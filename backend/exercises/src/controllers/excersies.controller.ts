@@ -1,6 +1,7 @@
 import searchService from "../services/elasticsearch";
 import excersiesService from "../services/exercises";
 import { Request, Response } from "express";
+import { SearchOptions } from "../utils/types/searchOptions.type";
 
 export const load = async (req: Request, res: Response) => {
     await excersiesService.loadFromJson();
@@ -18,9 +19,3 @@ export const search = async (req: Request<SearchOptions>, res: Response) => {
     res.status(200).send(excersies);
 }
 
-export interface SearchOptions {
-    name?: string;
-    level?: string;
-    category?: string;
-    from?: number;
-}

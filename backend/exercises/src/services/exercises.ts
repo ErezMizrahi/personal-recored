@@ -1,9 +1,12 @@
 import fs from 'fs/promises';
 import path from 'path';
 import searchService from './elasticsearch';
-import { SearchOptions } from '../controllers/excersies.controller';
+import { SearchResponse, SearchTotalHits } from '@elastic/elasticsearch/lib/api/types';
+import { SearchOptions } from '../utils/types/searchOptions.type';
+import { FILTERS } from '../utils/constants';
 
 class ExercisesService {
+
     async loadFromJson() {
         const excersiesJson = JSON.parse( await fs.readFile(path.resolve('src/services/data/exercises.json'), 'utf-8') );
         for(const exercise of excersiesJson.exercises) {
@@ -15,14 +18,9 @@ class ExercisesService {
     }
 
     async search(filters: SearchOptions) {
-        const queryString = Object.entries(filters)
-        .filter(([key, _]) => key !== 'from')
-        .map(([key, value]) => {
-            if(key === 'name') {
-                return `${key}:"${value.split(' ').join('*')}"`;
-            }
-            return `${key}:${value}`;
-        })
+        const queryFilters = Object.entries(filters)
+        .filter(([key, _]) => !FILTERS.IGNORED_FILTERS.includes(key))
+        .map(([key, value]) => `${key}:${value}`)
         .join(' AND ');
 
         const body = {
@@ -30,13 +28,37 @@ class ExercisesService {
             size: 10,
             from: filters.from!,
             query: {
-                query_string: {
-                    query: queryString
+                bool: {
+                    must: [
+                        {
+                            match_phrase_prefix: {
+                                name: filters.name
+                            }
+                        },
+                        {
+                            query_string: {
+                                query: queryFilters || "*"
+                            }
+                        }
+                    ]
                 }
             }
         };
 
-        return await searchService.search(body, filters.from!);
+        const results =  await searchService.search(body);
+        return this.buildSearchResponse(results);
+    }
+
+    private buildSearchResponse(result: SearchResponse) {
+        const { value } = result.hits.total as SearchTotalHits;
+        
+        return {
+            metadata: {
+                total: value,
+                max_score: result.hits.max_score
+            },
+            data: result.hits.hits.map(item => item._source)
+        }
     }
  }
 
@@ -44,8 +66,3 @@ const excersiesService = new ExercisesService();
 export default excersiesService;
 
 
-export interface WildcardSearch { 
-    wildcard : {
-        [x:string]: { value : any, 'case_insensitive': boolean }
-    }
-}
