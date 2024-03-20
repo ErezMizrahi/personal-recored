@@ -10,12 +10,6 @@ declare global {
 }
 
 export const currentUser = async (req: Request, res: Response, next: NextFunction) => {
-    if(!req.get('Authorization')) {
-        return next();
-    }
-
-    try {
-
     if(process.env.NODE_ENV === 'jest test') {
         req.currentUser = {
             iss: "",
@@ -27,8 +21,15 @@ export const currentUser = async (req: Request, res: Response, next: NextFunctio
             name: 'test2',
             picture: ''
         }
+        
         return next();
     }
+
+    if(!req.get('Authorization')) {
+        return next();
+    }
+
+    try {
 
         const client = new OAuth2Client();
 
