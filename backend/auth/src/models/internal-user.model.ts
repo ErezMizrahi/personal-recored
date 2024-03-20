@@ -1,4 +1,4 @@
-import mongoose, { Model, Document, Schema, model } from "mongoose";
+import { Model, Document, Schema, model } from "mongoose";
 import { RegisterUserDetails } from "../types/register-user-details.type";
 
 interface InternalUserAttrs extends RegisterUserDetails {
@@ -7,7 +7,7 @@ interface InternalUserAttrs extends RegisterUserDetails {
     picture: string;
 }
 
-interface InternalUserDoc extends Document, RegisterUserDetails {
+export interface InternalUserDoc extends Document, RegisterUserDetails {
     username: string;
     email: string;
     picture: string;
@@ -27,9 +27,8 @@ const internalUserSchema = new Schema({
         required: true
     },
     picture: {
-        type: String,
-        required: false
-    },
+        type: String
+        },
     firstName: {
         type: String,
         required: true
@@ -69,6 +68,6 @@ internalUserSchema.statics.build = (attrs: InternalUserAttrs) => {
     return new InternalUser(attrs);
 }
 
-const InternalUser = model<InternalUserDoc, InternalUserModel>("InternalUser", internalUserSchema);
+const InternalUser = model<InternalUserDoc, InternalUserModel>("internalUser", internalUserSchema);
 
 export { InternalUser };

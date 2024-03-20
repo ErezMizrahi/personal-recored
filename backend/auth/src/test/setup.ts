@@ -1,55 +1,30 @@
-import { MongoMemoryServer } from 'mongodb-memory-server';
 import mongoose from 'mongoose';
-import { app } from '../app';
-import request from 'supertest'; 
+import { MongoMemoryServer } from 'mongodb-memory-server';
 
-let mongo: any;
+let mongoServer: MongoMemoryServer;
 
 beforeAll(async () => {
-    process.env.JWT_KEY = 'test';
-    process.env.NODE_ENV = 'jest test';
-    mongo = await MongoMemoryServer.create();
-    const mongoUri = await mongo.getUri();
-    await mongoose.connect(mongoUri);
+  mongoServer = await MongoMemoryServer.create();
+  const mongoUri = mongoServer.getUri();
+
+  await mongoose.connect(mongoUri);
+
+  // Set environment variables
+  process.env.NODE_ENV = 'jest test';
+  process.env.JWT_KEY = 'test';
 });
 
-
 beforeEach(async () => {
-    const collections = await mongoose.connection.db.collections();
-    for(const collection of collections) {
-        await collection.deleteMany({});
-    }
+  const collections = mongoose.connection.collections;
+  for (const key in collections) {
+    await collections[key].deleteMany({});
+  }
 });
 
 afterAll(async () => {
-    if (mongo) {
-        await mongo.stop();
-    }
-    
-    await mongoose.connection.close();
+  await mongoose.connection.dropDatabase();
+  await mongoose.connection.close();
+  await mongoServer.stop();
 });
 
-declare global {
-    var signup: () => Promise<string[]>;
-}
-
-global.signup = async () => {
-    const body = {
-        firstName :'test',
-        lastName: 'test',
-        gender: 'male',
-        age: '30',
-        weight: '73',
-        height: '173'
-    }
-
-    const response = await request(app)
-        .post('/api/users/signup')
-        .set('Authorization', 'Bearer dummytoken')
-        .send(body)
-        .expect(201);
-    
-    expect(response.get('Set-Cookie')).toBeDefined();
-    const cookie = response.get('Set-Cookie');
-    return cookie;
-}
+ 

@@ -1,29 +1,29 @@
 import { TokenPayload } from "google-auth-library";
-import { InternalUser } from "../models/internal-user.model";
+import { InternalUser, InternalUserDoc } from "../models/internal-user.model";
 import { BadRequestError } from "@erezmiz-pr/pr-common";
 import { RegisterUserDetails } from "../types/register-user-details.type";
 import { UserCreatedPublisher } from "../events/publishers/user.created";
 import { rabbitMqWrapper } from "../../amqp/mq.wrapper";
+import mongoose from "mongoose";
 
 class InternalUserService {
 
-    private async getUserByEmail(email: string) {
-       return await InternalUser.findOne({ email });
+    private async findUser (email: string): Promise<InternalUserDoc | null> {
+        return await InternalUser.findOne({ email });
     }
 
     async getCurrentUser(payload: TokenPayload) {
-        const user = await this.getUserByEmail(payload.email ?? '');
+        const user = payload.email ? await this.findUser(payload.email) : null;
         if(!user) {
             throw new BadRequestError('user dosent exists');
         }
-
         return user;
     }
 
-    async register(userDeatils: RegisterUserDetails, payload: TokenPayload) {
-        console.log('payload', payload)
-        if(await this.getUserByEmail(payload.email ?? '')) {
-            throw new BadRequestError('user already exists');
+    async signup(userDeatils: RegisterUserDetails, payload: TokenPayload): Promise<InternalUserDoc> {
+        if(payload.email && await this.findUser(payload.email)) {
+            console.log('User already exists with this email address')
+            throw new BadRequestError('User already exists with this email address');
         }
 
         const user = InternalUser.build({
@@ -33,12 +33,17 @@ class InternalUserService {
             ...userDeatils
         });
 
+        console.log('Connection state before save:', mongoose.connection.readyState);
+        
         await user.save();
+        console.log('test user', user);
 
-        new UserCreatedPublisher(rabbitMqWrapper.channel).publish({
-            username: user.username,
-            email: user.email
-        });
+        console.log('Connection state after save:', mongoose.connection.readyState);
+
+        // // // new UserCreatedPublisher(rabbitMqWrapper.channel).publish({
+        // // //     username: user.username,
+        // // //     email: user.email
+        // // // });
 
         return user;
     }

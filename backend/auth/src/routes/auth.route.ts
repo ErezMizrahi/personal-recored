@@ -1,15 +1,13 @@
 import { Router } from "express";
-import { currentUser, requireAuth, validateRquest } from "@erezmiz-pr/pr-common";
-import { getCurrentUser, signUp, test, deleteUsers } from "../controllers/auth.controller";
+import { currentGoogleUser, requireAuth, validateRquest } from "@erezmiz-pr/pr-common";
+import { getCurrentUser, signUp, deleteUsers } from "../controllers/auth.controller";
 import { body } from "express-validator";
 
 const router = Router();
 
-router.get('/test', test);
+router.get('/me',currentGoogleUser, requireAuth, validateRquest, getCurrentUser);
 
-router.get('/me',currentUser, requireAuth, validateRquest, getCurrentUser);
-
-router.post('/signup', currentUser, requireAuth, 
+router.post('/signup', currentGoogleUser, requireAuth,
 [
     body('firstName')
         .trim()
