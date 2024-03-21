@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import { app } from "./app";
 import dotenv from 'dotenv'
-import { rabbitMqWrapper } from "./amqp/mq.wrapper";
+import { rabbitMqWrapper } from "./mq.wrapper";
 import { UserCreatedListener } from "./events/listeners/user.created";
 dotenv.config()
 

@@ -13,7 +13,8 @@ export class UserCreatedListener extends Listener<UserCreatedEvent> {
             if(!user) {
                 await InternalUser.build({
                     username: data.username,
-                    email: data.email
+                    email: data.email,
+                    programs: []
                 }).save();
             }
 

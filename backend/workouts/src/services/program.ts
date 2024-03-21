@@ -1,7 +1,6 @@
 import { TokenPayload } from "google-auth-library";
-import { InternalUser } from "../models/internal-user.model";
-import { Program } from "../models/program.model";
-import { workoutService } from "./workout";
+import { InternalUser, InternalUserDoc } from "../models/internal-user.model";
+import { Program, ProgramDoc, WorkoutAttrs } from "../models/program.model";
 
 class WorkoutProgramService {
    
@@ -16,23 +15,30 @@ class WorkoutProgramService {
         await Program.deleteOne({_id: id});
     }
 
-    
-    async createProgram(name: string, endDate: string, workoutsNames: string[], user: TokenPayload) {
-        if(await this.getProgramByName(name)) throw Error('Program with this name already exists');
+    private async addProgramToUser(program: ProgramDoc, user: InternalUserDoc) {
+        user.programs?.push(program);
+        await user.save();
+    }
 
-        const currentUser  = await InternalUser.findOne({email: user.email});
-        const workouts = await workoutService.findWorkouts(workoutsNames);
-        if(!workouts) throw Error('no Workouts were found');
+    async createProgram(name: string, endDate: string, workouts: WorkoutAttrs[], user: InternalUserDoc) {
+        if(await this.getProgramByName(name)) throw Error('Program with this name already exists');
 
         const program = await Program.build({
             name,
             endDate,
-            owner: currentUser!,
+            owner: user,
             workouts
         });
 
         await program.save();
+
+        await this.addProgramToUser(program, user);
+
         return program;
+    }
+
+    async getPrograms(user: InternalUserDoc) {
+        return (await user.populate('programs')).programs;
     }
 }
 

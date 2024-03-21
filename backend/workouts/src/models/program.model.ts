@@ -1,19 +1,32 @@
 import { Document, Model, Schema, model } from "mongoose";
-import { WorkoutDoc } from "./workouts.model";
 import { InternalUserDoc } from "./internal-user.model";
 
 interface ProgramAttrs { 
     name: string;
     endDate: string;
     owner: InternalUserDoc;
-    workouts: WorkoutDoc[];
+    workouts: WorkoutAttrs[];
 }
 
-interface ProgramDoc extends Document { 
+export interface WorkoutAttrs { 
+    name: string;
+    daysOfTheWeek: string[];
+    exercises: ExercisesAttrs[];
+}
+
+export interface ExercisesAttrs { 
+    name: string;
+    sets: number;
+    reps: number;
+    weight: number;
+    rest: number;
+}
+
+export interface ProgramDoc extends Document { 
     name: string;
     endDate: string;
     owner: InternalUserDoc;
-    workouts: WorkoutDoc[];
+    workouts: WorkoutAttrs[];
 }
 
 interface ProgramModel extends Model<ProgramDoc> {
@@ -34,14 +47,50 @@ const programSchema = new Schema({
         ref: 'internalUser'
     },
     workouts: [{
-        type: Schema.Types.ObjectId,
-        ref: 'workout'
+        name: {
+            type: String,
+            required: true
+        },
+        daysOfTheWeek: {
+            type: [String],
+            required: true
+        },
+        exercises: [{
+            name: {
+                type: String,
+                required: true
+            },
+            sets: {
+                type: Number,
+                required: true
+            },
+            reps: {
+                type: Number,
+                required: true
+            },
+            weight: {
+                type: Number,
+                required: true
+            },
+            rest: {
+                type: Number,
+                required: true
+            }
+        }]
     }]
 }, {
     toJSON: {
         transform(doc, ret) {
             ret.id = ret._id;
             delete ret._id;
+            delete ret.__v;
+            delete ret.owner;
+            ret.workouts.forEach((workout: any) => {
+                delete workout._id;
+                workout.exercises.forEach((exercise: any) => {
+                    delete exercise._id;
+                });
+            });
         },
     }
 });

@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import internalUserService from "../services/internal-user.service";
+import internalUserService from "../services/internal-user";
 import { RegisterUserDetails } from "../types/register-user-details.type";
 
 export const getCurrentUser = async (req: Request, res: Response) => {

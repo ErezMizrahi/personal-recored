@@ -10,7 +10,7 @@ app.set('trust proxy', true);
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
-app.use('/api/workouts/', workoutsRouter);
+app.use('/api/programs/', workoutsRouter);
 
 
 app.all('*', async () => { throw new NotFoundError() });

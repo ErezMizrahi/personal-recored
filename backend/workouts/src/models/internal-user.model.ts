@@ -1,13 +1,16 @@
-import mongoose, { Model, Document, Schema, model } from "mongoose";
+import { Model, Document, Schema, model } from "mongoose";
+import { ProgramDoc } from "./program.model";
 
 interface InternalUserAttrs {
     username: string;
     email: string;
+    programs?: ProgramDoc[];
 }
 
 export interface InternalUserDoc extends Document {
     username: string;
     email: string;
+    programs?: ProgramDoc[];
 }
 
 interface InternalUserModel extends Model<InternalUserDoc> {
@@ -22,7 +25,12 @@ const internalUserSchema = new Schema({
     email: {
         type: String,
         required: true
-    }
+    },
+    programs: [{
+        type: Schema.Types.ObjectId,
+        required: false,
+        ref: 'program'
+    }]
 }, {
     toJSON: {
         transform(doc, ret) {
