@@ -11,3 +11,8 @@ export const getCurrentUserPrograms = async (req: Request, res: Response) => {
     const programs = await workoutProgramService.getPrograms(req.currentInternalUser!);
     res.status(200).json(programs);
 }
+
+export const getCurrentUserWorkouts = async (req: Request, res: Response) => {
+    const workouts = await workoutProgramService.getWorkouts(req.currentInternalUser!);
+    res.status(200).json(workouts);
+}

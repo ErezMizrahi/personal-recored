@@ -4,8 +4,8 @@ import { Program, ProgramDoc, WorkoutAttrs } from "../models/program.model";
 
 class WorkoutProgramService {
    
-    private async getProgramByName(name: string) {
-        return await Program.findOne({name});
+    private async getProgramBy(param: string) {
+        return await Program.findOne({[param]: param});
     }
 
     private async deleteProgramById(id: string) {
@@ -21,7 +21,7 @@ class WorkoutProgramService {
     }
 
     async createProgram(name: string, endDate: string, workouts: WorkoutAttrs[], user: InternalUserDoc) {
-        if(await this.getProgramByName(name)) throw Error('Program with this name already exists');
+        if(await this.getProgramBy(name)) throw Error('Program with this name already exists');
 
         const program = await Program.build({
             name,
@@ -37,8 +37,15 @@ class WorkoutProgramService {
         return program;
     }
 
-    async getPrograms(user: InternalUserDoc) {
-        return (await user.populate('programs')).programs;
+    async getPrograms(user: InternalUserDoc): Promise<ProgramDoc[] | undefined> {
+        const userPrograms = await user.populate('programs');
+        return userPrograms.programs;
+    }
+
+    async getWorkouts(user: InternalUserDoc) {
+        const userPrograms = await user.populate('programs');
+        const workouts = userPrograms.programs?.map(program =>  program.workouts);
+        return workouts?.flat();
     }
 }
 

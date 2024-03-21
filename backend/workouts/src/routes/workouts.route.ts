@@ -1,12 +1,13 @@
 import { Router } from "express";
 import { currentGoogleUser, requireAuth, validateRquest } from "@erezmiz-pr/pr-common";
-import { createProgram, getCurrentUserPrograms } from "../controllers/workouts.controller";
+import { createProgram, getCurrentUserPrograms, getCurrentUserWorkouts } from "../controllers/workouts.controller";
 import { requireAppUser } from "../middlewares/app.user";
 import { body } from "express-validator";
 
 const router = Router();
 
 router.get('/current', currentGoogleUser, requireAuth, requireAppUser, getCurrentUserPrograms);
+router.get('/workouts', currentGoogleUser, requireAuth, requireAppUser, getCurrentUserWorkouts);
 
 router.post('/create', currentGoogleUser, requireAuth, requireAppUser,[
     body('name')
@@ -20,8 +21,7 @@ router.post('/create', currentGoogleUser, requireAuth, requireAppUser,[
         .custom((value) => {
             if(new Date(value) < new Date()) throw new Error('endDate must be in the future');
             return true;
-        })
-        ,
+        }),
     body('workouts')
         .isArray()
         .notEmpty()
