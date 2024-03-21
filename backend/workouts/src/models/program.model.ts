@@ -4,12 +4,14 @@ import { InternalUserDoc } from "./internal-user.model";
 
 interface ProgramAttrs { 
     name: string;
+    endDate: string;
     owner: InternalUserDoc;
     workouts: WorkoutDoc[];
 }
 
 interface ProgramDoc extends Document { 
     name: string;
+    endDate: string;
     owner: InternalUserDoc;
     workouts: WorkoutDoc[];
 }
@@ -23,13 +25,17 @@ const programSchema = new Schema({
         type: String,
         required: true
     },
+    endDate: {
+        type: String,
+        required: true
+    },
     owner: {
         type: Schema.Types.ObjectId,
-        ref: 'InternalUser'
+        ref: 'internalUser'
     },
     workouts: [{
         type: Schema.Types.ObjectId,
-        ref: 'Workout'
+        ref: 'workout'
     }]
 }, {
     toJSON: {
@@ -44,5 +50,5 @@ programSchema.statics.build = (attrs: ProgramAttrs) => {
     return new Program(attrs);
 }
 
-const Program = model<ProgramDoc, ProgramModel>('Program', programSchema);
+const Program = model<ProgramDoc, ProgramModel>('program', programSchema);
 export { Program };

@@ -36,6 +36,6 @@ internalUserSchema.statics.build = (attrs: InternalUserAttrs) => {
     return new InternalUser(attrs);
 }
 
-const InternalUser = model<InternalUserDoc, InternalUserModel>("InternalUser", internalUserSchema);
+const InternalUser = model<InternalUserDoc, InternalUserModel>("internalUser", internalUserSchema);
 
 export { InternalUser };

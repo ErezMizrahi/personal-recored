@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { currentUser, requireAuth, validateRquest } from "@erezmiz-pr/pr-common";
+import { currentGoogleUser, requireAuth, validateRquest } from "@erezmiz-pr/pr-common";
 import { cleanDb, load, search } from "../controllers/excersies.controller";
 import { param, query } from "express-validator";
 
