@@ -81,7 +81,7 @@ const programSchema = new Schema({
 }, {
     toJSON: {
         transform(doc, ret) {
-            ret.id = ret._id;
+            ret.program_id = ret._id;
             delete ret._id;
             delete ret.__v;
             delete ret.owner;

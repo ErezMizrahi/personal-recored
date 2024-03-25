@@ -1,15 +1,23 @@
 import { Router } from "express";
 import { currentGoogleUser, requireAuth, validateRquest } from "@erezmiz-pr/pr-common";
-import { createProgram, getCurrentUserPrograms, getCurrentUserWorkouts } from "../controllers/workouts.controller";
+import { createProgram, getCurrentUserPrograms, getCurrentUserWorkouts, deleteProgramById } from "../controllers/workouts.controller";
 import { requireAppUser } from "../middlewares/app.user";
-import { body } from "express-validator";
+import { body, param } from "express-validator";
 
 const router = Router();
+const validationMiddleware = [currentGoogleUser, requireAuth, requireAppUser];
 
-router.get('/current', currentGoogleUser, requireAuth, requireAppUser, getCurrentUserPrograms);
-router.get('/workouts', currentGoogleUser, requireAuth, requireAppUser, getCurrentUserWorkouts);
+router.get('/current', [...validationMiddleware], getCurrentUserPrograms);
 
-router.post('/create', currentGoogleUser, requireAuth, requireAppUser,[
+router.get('/:programId/workouts', [...validationMiddleware], [
+    param('programId')
+    .notEmpty()
+    .withMessage('programId must be provided')
+    .isMongoId()
+    .withMessage('programId must be a valid mongo id')
+], validateRquest, getCurrentUserWorkouts);
+
+router.post('/create', [...validationMiddleware],[
     body('name')
         .notEmpty()
         .withMessage('name must be provided'),
@@ -23,39 +31,40 @@ router.post('/create', currentGoogleUser, requireAuth, requireAppUser,[
             return true;
         }),
     body('workouts')
-        .isArray()
-        .notEmpty()
+        .isArray({min: 1})
         .withMessage('workouts must be an array and not empty'),
     body('workouts.*.name')
         .notEmpty()
         .withMessage('workout name must be provided'),
     body('workouts.*.daysOfTheWeek')
-        .isArray()
-        .notEmpty()
+        .isArray({min: 1})
         .withMessage('workout daysOfTheWeek must be provided'),
     body('workouts.*.exercises')
-        .isArray()
-        .notEmpty()
+        .isArray({min: 1})
         .withMessage('workout exercises must be provided'),
     body('workouts.*.exercises.*.name')
         .notEmpty()
         .withMessage('exercise name must be provided'),
     body('workouts.*.exercises.*.sets')
-        .isNumeric()
-        .notEmpty()
+        .isFloat({ min: 1 })
         .withMessage('exercise sets must be provided'),
     body('workouts.*.exercises.*.reps')
-        .isNumeric()
-        .notEmpty()
+        .isFloat({ min: 1 })
         .withMessage('exercise reps must be provided'),
     body('workouts.*.exercises.*.weight')
-        .isNumeric()
-        .notEmpty()
+        .isFloat({ min: 1 })
         .withMessage('exercise weight must be provided'),
     body('workouts.*.exercises.*.rest')
-        .isNumeric()
-        .notEmpty()
+        .isFloat({ min: 30 })
         .withMessage('exercise rest must be provided')
 ], validateRquest, createProgram);
+
+router.delete('/:programId/delete', [...validationMiddleware], [
+    param('programId')
+    .notEmpty()
+    .withMessage('programId must be provided')
+    .isMongoId()
+    .withMessage('programId must be a valid mongo id')
+], validateRquest, deleteProgramById)
 
 export { router as workoutsRouter };
