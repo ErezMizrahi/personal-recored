@@ -13,11 +13,6 @@ export const getCurrentUserPrograms = async (req: Request, res: Response) => {
 }
 
 export const getCurrentUserWorkouts = async (req: Request, res: Response) => {
-    const workouts = await workoutProgramService.getWorkouts(req.currentInternalUser!, req.params.programId);
+    const workouts = await workoutProgramService.getWorkouts(req.currentInternalUser!);
     res.status(200).json(workouts);
-}
-
-export const deleteProgramById = async (req: Request, res: Response) => {
-    await workoutProgramService.deleteProgramById(req.currentInternalUser!, req.params.programId);
-    res.status(204).send();
 }
