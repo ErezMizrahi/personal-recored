@@ -12,6 +12,7 @@ const Workouts = async () => {
   const clickHandlers = {
     create: {
       onClick: {
+        
         redirect: '/workouts/create'
       } 
     },
