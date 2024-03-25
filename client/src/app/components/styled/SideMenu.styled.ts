@@ -7,7 +7,8 @@ flex-direction: column;
 align-items: flex-start;
 height: 100vh;
 padding: 2em 1em;
-background-color: ${props => props.theme.colors.secondary};
+background-color: white;
+border-right:1px solid ${props => props.theme.colors.primary};
 `
 
 interface SideMenuWidthProps {
@@ -39,9 +40,9 @@ padding: 15px 0px 0px 35px;
 list-style: none;
 margin: 0;
 vertical-align: middle;
-color: ${props => props.theme.colors.light};
+color: ${props => props.theme.colors.primary};
 &:hover {
-    color: ${props => props.theme.colors.primary};
+    color: ${props => props.theme.colors.primaryHover};
   }
   cursor: pointer;
   min-height: 50px;
