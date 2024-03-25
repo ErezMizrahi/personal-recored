@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { InternalUser, InternalUserDoc } from "../models/internal-user.model";
-
+import { NotFoundError } from '@erezmiz-pr/pr-common';
 
 declare global {
     namespace Express {
@@ -13,10 +13,9 @@ declare global {
 
 export const requireAppUser = async (req: Request, res: Response, next: NextFunction) => {
     if(!(req.currentGoogleUser!.email)) throw Error('Cant get user email');
-    console.log('require app user : ', req.currentGoogleUser?.email);
     
     const internalUser = await InternalUser.findOne({email: req.currentGoogleUser!.email});
-    if(!internalUser) throw Error('User is not registerd!');
+    if(!internalUser) throw new NotFoundError();
 
     req.currentInternalUser = internalUser;
 

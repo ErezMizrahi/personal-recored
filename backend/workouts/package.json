@@ -1,10 +1,23 @@
 {
-  "name": "auth",
+  "name": "workouts",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "ts-node-dev --poll src/index.ts"
+    "start": "ts-node-dev --poll src/index.ts",
+    "jest-clear-cache": "jest --clearCache",
+    "test": "jest --watchAll --no-cache"
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "watchPathIgnorePatterns": [
+      "<rootDir>/node_modules/",
+      "<rootDir>/dist/"
+    ],
+    "setupFilesAfterEnv": [
+      "./src/test/setup.ts"
+    ]
   },
   "devDependencies": {
     "@types/jest": "^29.5.3",
