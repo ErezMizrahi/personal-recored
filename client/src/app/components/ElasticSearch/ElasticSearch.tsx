@@ -14,15 +14,15 @@ function ElasticSearch({ selectedItems, setSelectedItems }: Props) {
 
   const onChangeText = async (event: ChangeEvent<HTMLInputElement>) => {
     await debounce(async () => {
-      const query = event.target.value;
+      const name = event.target.value;
       const requestOptions = {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ by: "name", query }),
+        body: JSON.stringify({ name: name }),
       };
-      if (query.length) {
+      if (name.length) {
         const response = await fetch("/api/exercises/search", requestOptions);
         const data = (await response.json()) as Record<string, any>[];
 

@@ -1,39 +1,98 @@
-"use client"
-import React, { useState } from 'react'
-import Link from 'next/link';
-import UserDeatilsIcon from './UserDeatilsIcon';
-import { LinkListContainer, ListItemWithImage, SideMenuWidth } from './styled/SideMenu.styled';
-
+"use client";
+import React, { useEffect, useState } from "react";
+import Link from "next/link";
+import UserDeatilsIcon from "./UserDeatilsIcon";
+import {
+  LinkListContainer,
+  ListItem,
+  SideMenuWidth,
+} from "./styled/SideMenu.styled";
+import { signOut, useSession } from "next-auth/react";
+import { CButton } from "./styled/CButton.styled";
+import { usePathname } from "next/navigation";
 
 const SideMenu = () => {
-    const [isOpen, setIsOpen] = useState(true);
-    const menuOptions = [
-        { title: 'Home' , href: '/', icon: `/images/home_FILL0_wght400_GRAD0_opsz24.svg` },
-        { title: 'Workouts' , href: '/workouts', icon: `/images/home_FILL0_wght400_GRAD0_opsz24.svg`  },
-        { title: 'Protected' , href: '/protected', icon: `/images/home_FILL0_wght400_GRAD0_opsz24.svg`  },
-        { title: 'Personal Information' , href: '/personal-info', icon: `/images/home_FILL0_wght400_GRAD0_opsz24.svg`  }
-    ];
-  return (
-    <SideMenuWidth width={isOpen ? '200px' : '40px'}>
-        <button onClick={() => setIsOpen(prev => !prev)}>{isOpen ? 'close' : 'open'}</button>
-            <div style={{width: '100%'}}>
-                <UserDeatilsIcon isMenuOpen={isOpen} />
-            </div>
-        
-            <LinkListContainer>
-                { menuOptions.map((item, index) => (
-                    <React.Fragment key={`${item.title}-${index}`}>
-                    <Link href={item.href}>
-                        <ListItemWithImage icon={item.icon}>
-                            {isOpen && item.title} 
-                        </ListItemWithImage>
-                    </Link>
-                    </React.Fragment>
-                    
-                ))}
-            </LinkListContainer>
-    </SideMenuWidth>
-  )
-}
+  const [isOpen, setIsOpen] = useState(true);
+  const menuOptions = [
+    { title: "Home", href: "/" },
 
-export default SideMenu
+    { title: "Personal", href: "/personal-info" },
+    { title: "Programs", href: "/workouts" },
+  ];
+  const { data: session } = useSession();
+  const [selectedItem, setSelectedItem] = useState<number>(0);
+  const handleSignOutAction = () => {
+    signOut({ callbackUrl: "/" });
+  };
+  const path = usePathname();
+
+  const getOnComponentMountIndex = () => {
+    const pathList = path.split("/");
+    const currentItemIndex = menuOptions.findIndex(
+      (option) => option.href.replace("/", "") === pathList[pathList.length - 1]
+    );
+    return currentItemIndex;
+  };
+
+  useEffect(() => {
+    const index = getOnComponentMountIndex();
+    setSelectedItem(index);
+  }, []);
+
+  const onChanged = (index: number) => {
+    setSelectedItem(index);
+  };
+  return (
+    <SideMenuWidth width={isOpen ? "150px" : "50px"}>
+      {/* <button onClick={() => setIsOpen(prev => !prev)}>{isOpen ? 'close' : 'open'}</button> */}
+
+      <UserDeatilsIcon session={session} />
+
+      <LinkListContainer>
+        {menuOptions.map((item, index) => (
+          <React.Fragment key={`${item.title}-${index}`}>
+            <Link href={item.href}>
+              <ListItem
+                style={
+                  selectedItem === index
+                    ? {
+                        textDecoration: "underline",
+                        textUnderlineOffset: "10px",
+                        textDecorationColor: "#ED5050",
+                      }
+                    : {}
+                }
+                onClick={() => {
+                  onChanged(index);
+                }}
+               
+              >
+                {isOpen && item.title}
+              </ListItem>
+            </Link>
+          </React.Fragment>
+        ))}
+      </LinkListContainer>
+
+      <div style={{ position: "absolute", bottom: "10px" }}>
+        <div
+          style={{ width: "150px", display: "flex", justifyContent: "center" }}
+        >
+          {isOpen && (
+            <CButton
+              style={{ height: "30px", padding: "0px 30px 0px 30px" }}
+              onClick={() => {
+                handleSignOutAction();
+              }}
+            >
+              {" "}
+              Logout{" "}
+            </CButton>
+          )}
+        </div>
+      </div>
+    </SideMenuWidth>
+  );
+};
+
+export default SideMenu;
