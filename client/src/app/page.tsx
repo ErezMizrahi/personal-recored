@@ -2,15 +2,19 @@ import { getServerSession } from 'next-auth'
 import { authOptions } from './api/auth/[...nextauth]/route';
 import { redirect } from 'next/navigation';
 import { MainContainer } from './components/styled/MainContainer.styled';
+import AutoSignIn from './components/auth/AutoSignIn';
 
 
 export default async function Home() {
   const session = await getServerSession(authOptions);
-  console.log(session);
+  if(!session || !session.user) {
+    return <AutoSignIn />;
+  }
   
   const isNew = session?.user.isNew;
+  console.log('isNew', isNew);
   if(isNew) {
-    redirect('/signup');
+    redirect('/auth/signup');
   }
 
 

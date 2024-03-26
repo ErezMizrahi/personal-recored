@@ -5,8 +5,10 @@ export const Container = styled.main`
      display: flex;
     flex-direction: column;
     flex:1;
-    width:calc(100% - 190px);
-    margin-left:190px;
+    width: 100%;
     gap:20px;
+`;
 
+export const BreadCrumbsContainer = styled.div`
+    color: ${props => props.theme.colors.secondary};
 `;

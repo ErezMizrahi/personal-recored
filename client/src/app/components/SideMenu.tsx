@@ -17,7 +17,7 @@ const SideMenu = () => {
     { title: "Home", href: "/" },
 
     { title: "Personal", href: "/personal-info" },
-    { title: "Programs", href: "/workouts" },
+    { title: "Programs", href: "/programs" },
   ];
   const { data: session } = useSession();
   const [selectedItem, setSelectedItem] = useState<number>(0);

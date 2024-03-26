@@ -9,12 +9,12 @@ height: 100%;
 background-color: ${props => props.theme.colors.primary};
 box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 border-radius:14px;
-
+max-width: 150px;
 `
 export const SideMenuWrapper = styled.div`
-padding:20px 10px 20px 10px;
-height:100vh;
-position:fixed;
+padding-left : 10px;
+padding-right : 20px;
+height:100%;
 
 
 `

@@ -1,9 +1,8 @@
 import { revalidatePath } from 'next/cache';
-// import styles from './SignUpForm.module.css';
 import nextFetch from '@/app/api/next-fetch';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
-import { redirect } from 'next/navigation';
+import { RedirectType, redirect } from 'next/navigation';
 import { CButton } from '../styled/CButton.styled';
 import { Form, FormInput } from '../styled/FormContainer.styled';
 
@@ -20,8 +19,6 @@ const SignUpForm = () => {
       height: formData.get('height')
     }
 
-    console.log('body', body)
-
     const session = await getServerSession(authOptions);
     if(session?.user) {
       const res = await nextFetch({
@@ -34,18 +31,27 @@ const SignUpForm = () => {
             body
           });
 
-      const response = await res.json();
+
       if(res.ok) {
-        revalidatePath('/signin');
-        redirect('/signin')
+        revalidatePath('/', 'layout');
+        redirect('/auth/signin', RedirectType.replace);
+      }
+
+      if(res.status === 400) {
+        //handle errors
+      }
+
+      if(res.status === 401) {
+        revalidatePath('/', 'layout');
+        redirect('/auth/signout', RedirectType.replace);
       }
     }
-   
+
     revalidatePath('/signup');
   }
       return (
         <Form action={submitSignupForm}>
-<label htmlFor='firstName'>First Name</label>
+            <label htmlFor='firstName'>First Name</label>
             <FormInput type="text" name="firstName" />
 
             <label htmlFor='lastName'>Last Name</label>
@@ -67,7 +73,7 @@ const SignUpForm = () => {
             <FormInput type="text" name="height" />
 
             {/* <button type="submit">Submit</button> */}
-            <CButton type='submit'>Submit</CButton>
+            <CButton style={{width: 80}} type='submit'>Submit</CButton>
         </Form>
       )
 }

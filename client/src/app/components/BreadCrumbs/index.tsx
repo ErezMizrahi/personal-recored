@@ -1,8 +1,8 @@
 "use client";
-import React, { useState } from "react";
-
+import React from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import { BreadCrumbsContainer } from "../styled/Container.styled";
 
 export default function index() {
   const path = usePathname();
@@ -13,7 +13,7 @@ export default function index() {
   };
 
   return (
-    <div style={{ marginTop: "10px", flexDirection: "row" }}>
+    <BreadCrumbsContainer>
       {pathList[1] === "" ? (
         <Link href="/">Home</Link>
       ) : (
@@ -28,6 +28,6 @@ export default function index() {
           </Link>
         ))
       )}
-    </div>
+    </BreadCrumbsContainer>
   );
 }

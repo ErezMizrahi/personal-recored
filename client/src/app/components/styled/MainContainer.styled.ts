@@ -6,6 +6,7 @@ display: flex;
 flex-direction: row;
 height: 100vh;
 flex:1;
-background-color: ${props => props.theme.colors.background};
-color: ${props => props.theme.colors.secondary}
+padding: 20px 10px;
+background-color: ${props => props.theme.colors.light};
+color: ${props => props.theme.colors.primary};
 `;
