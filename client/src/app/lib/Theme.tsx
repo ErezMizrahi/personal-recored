@@ -3,13 +3,11 @@ import { ThemeProvider } from "styled-components"
 
 const theme = { 
     colors: {
-        dark : '#23292d',
-        secondary: '#2c3135',
-        primary : '#FF9D74',
-        primaryHover : '#e9f0f4',
-        borderPrimary:'#FF9D74',
-        textColorPrimary:'#7a828c',
-        greenPrimary:'#C8EABA'
+        dark : '#23292D',
+        secondary: '#ED5050',
+        primary : '#23292D',
+        background:"#F4F4F4",
+        
     }
 }
 

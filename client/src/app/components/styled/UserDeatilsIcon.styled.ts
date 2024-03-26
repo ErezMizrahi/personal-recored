@@ -7,5 +7,6 @@ flex-direction: column;
 justify-content: center;
 align-items: center;
 width: 100%;
-gap: 10px
+gap: 10px;
+color:white;
 `

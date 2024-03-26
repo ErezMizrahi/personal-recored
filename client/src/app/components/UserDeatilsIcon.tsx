@@ -4,17 +4,17 @@ import Image from 'next/image';
 import React from 'react'
 import { ImageContainer } from './styled/UserDeatilsIcon.styled';
 import { CButton } from './styled/CButton.styled';
+import { Session } from 'next-auth';
 
 interface UserDeatilsProps { 
-    isMenuOpen: boolean;
+
+    session:Session|null;
 }
 
-const UserDeatilsIcon = ({ isMenuOpen } : UserDeatilsProps) => {
-    const { data: session } = useSession();
+const UserDeatilsIcon = ({ session } : UserDeatilsProps) => {
+  
 
-    const handleSignOutAction = () => {
-        signOut({callbackUrl:'/'});
-    }
+  
 
     return (
         <ImageContainer>
@@ -22,7 +22,7 @@ const UserDeatilsIcon = ({ isMenuOpen } : UserDeatilsProps) => {
             <div>
                 { session?.user.name }
             </div>
-            {isMenuOpen && <CButton onClick={() => { handleSignOutAction() }}> Logout </CButton> }
+          
         </ImageContainer>
     )
 }

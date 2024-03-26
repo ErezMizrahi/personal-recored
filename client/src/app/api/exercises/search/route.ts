@@ -5,9 +5,11 @@ export async function POST(request: NextRequest,response:NextApiResponse) {
 
 
 const body = await request.json()
-
-const url = `http://exercises:4002/api/exercises/search/${body.by}?query=${body.query}&from=0`
+console.log(body.name)
+const url = `http://exercises:4002/api/exercises//search?name=${body.name}&from=0&equipment=other`
 const res = await fetch(url,{method:"GET"})
+
 const  data = await res.json()
-return NextResponse.json(data)
+console.log(data)
+return NextResponse.json(data.data)
 }
