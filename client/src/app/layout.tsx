@@ -9,6 +9,7 @@ import { MainContainer } from './components/styled/MainContainer.styled';
 import { Container } from './components/styled/Container.styled';
 import NavigationMenu from './components/NavigationMenu';
 import Theme from './lib/Theme';
+import BreadCrumbs from './components/BreadCrumbs';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -27,13 +28,20 @@ export default async function RootLayout({
     <html lang="en">
       <body className={`${inter.className} ${styles.main}`}>
         <Theme>
+        
           <MainContainer className={inter.className}>
+            
             <StyledComponentsRegistry>
               <SessionProvider session={session}> 
                 <NavigationMenu/>
+                <div style={{flex:1}}>
+                
                 <Container>
+                <BreadCrumbs />
                   {children}
                 </Container>
+                </div>
+              
               </SessionProvider> 
             </StyledComponentsRegistry>
           </MainContainer>

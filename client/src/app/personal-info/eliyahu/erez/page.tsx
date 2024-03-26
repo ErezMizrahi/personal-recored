@@ -1,9 +1,9 @@
 import { getServerSession } from 'next-auth'
 import { redirect } from 'next/navigation';
 import React from 'react'
-import nextFetch from '../api/next-fetch';
-import { authOptions } from '../api/auth/[...nextauth]/route';
-import { CenteredDiv, CenteredImage } from '../components/styled/CenteredContainer.styled';
+import nextFetch from '../../../api/next-fetch';
+import { authOptions } from '../../../api/auth/[...nextauth]/route';
+import { CenteredDiv, CenteredImage } from '../../../components/styled/CenteredContainer.styled';
 import Image from 'next/image';
 
 const PersonalInfo = async () => {

@@ -5,12 +5,19 @@ export const SideMenuContainer = styled.div`
 display: flex;
 flex-direction: column;
 align-items: flex-start;
-height: 100vh;
-padding: 2em 1em;
-background-color: white;
-border-right:1px solid ${props => props.theme.colors.primary};
-`
+height: 100%;
+background-color: ${props => props.theme.colors.primary};
+box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+border-radius:14px;
 
+`
+export const SideMenuWrapper = styled.div`
+padding:20px 10px 20px 10px;
+height:100vh;
+position:fixed;
+
+
+`
 interface SideMenuWidthProps {
     width: string;
 }
@@ -19,31 +26,37 @@ width: ${props => props.width};
 transition-property: width;
 transition-duration: 0.5s;
 transition-timing-function: linear;
+position:relative;
+height:100%;
+padding-top:40px;
+
 `
 
-export const LinkListContainer = styled.ul`
+export const LinkListContainer = styled.div`
 list-style: none;
-height: 100%;
-width: 100%;
 display: flex;
 flex-direction: column;
 gap: 10px;
 margin-top: 2em;
 `
-interface ListItemWithImageProps {
-    icon: string;
-}
 
-export const ListItemWithImage = styled.li<ListItemWithImageProps>`
-background: url(${props => props.icon}) no-repeat left center;
-padding: 15px 0px 0px 35px;
+
+export const ListItem = styled.div`
+padding: 15px 0px 0px 20px;
 list-style: none;
-margin: 0;
 vertical-align: middle;
-color: ${props => props.theme.colors.primary};
+white-space:nowrap;
+color: white;
+font-size:16px;
 &:hover {
-    color: ${props => props.theme.colors.primaryHover};
+
+    text-decoration: underline;
+    text-decoration-color: ${props => props.theme.colors.secondary};
+    text-underline-offset:10px;
+   
   }
   cursor: pointer;
   min-height: 50px;
 `
+
+export const listItemText = styled.div``

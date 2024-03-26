@@ -34,7 +34,7 @@ const Workouts = async () => {
         <PRButton onAction={clickHandlers.myPrograms}>Create</PRButton>
       </div>
       <div>
-        <h2>Create a workout program</h2>
+       Create a workout program
         <PRButton onAction={clickHandlers.create}>Create</PRButton>
       </div>
     </div>
