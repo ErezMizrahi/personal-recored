@@ -10,31 +10,28 @@ import {
 import { signOut, useSession } from "next-auth/react";
 import { CButton } from "./styled/CButton.styled";
 import { usePathname } from "next/navigation";
+import { menuOptions } from "../utils/menuOptions";
 
 const SideMenu = () => {
   const [isOpen, setIsOpen] = useState(true);
-  const menuOptions = [
-    { title: "Home", href: "/" },
-
-    { title: "Personal", href: "/personal-info" },
-    { title: "Programs", href: "/programs" },
-  ];
+  const path = usePathname();
   const { data: session } = useSession();
-  const [selectedItem, setSelectedItem] = useState<number>(0);
+  const [selectedItem, setSelectedItem] = useState(0);
+
   const handleSignOutAction = () => {
     signOut({ callbackUrl: "/" });
   };
-  const path = usePathname();
-
-  const getOnComponentMountIndex = () => {
-    const pathList = path.split("/");
-    const currentItemIndex = menuOptions.findIndex(
-      (option) => option.href.replace("/", "") === pathList[pathList.length - 1]
-    );
-    return currentItemIndex;
-  };
+ 
 
   useEffect(() => {
+    const getOnComponentMountIndex = () => {
+      const pathList = path.split("/");
+      const currentItemIndex = menuOptions.findIndex(
+        (option) => option.href.replace("/", "") === pathList[pathList.length - 1]
+      );
+      return currentItemIndex;
+    };
+    
     const index = getOnComponentMountIndex();
     setSelectedItem(index);
   }, []);
@@ -42,6 +39,7 @@ const SideMenu = () => {
   const onChanged = (index: number) => {
     setSelectedItem(index);
   };
+
   return (
     <SideMenuWidth width={isOpen ? "150px" : "50px"}>
       {/* <button onClick={() => setIsOpen(prev => !prev)}>{isOpen ? 'close' : 'open'}</button> */}

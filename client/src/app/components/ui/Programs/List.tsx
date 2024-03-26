@@ -3,7 +3,7 @@ import nextFetch from '@/app/api/next-fetch';
 import { get } from 'http';
 import { getServerSession } from 'next-auth';
 import React from 'react'
-import { Card, CardContainer } from '../styled/Card.styled';
+import { Card, CardContainer } from '../../styled/Card.styled';
 
 interface ListProps {
     array: any[];

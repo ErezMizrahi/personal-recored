@@ -1,12 +1,10 @@
 import { getServerSession } from 'next-auth'
-import { redirect } from 'next/navigation';
 import React from 'react'
-import PRButton from '../components/ui/PRButton';
 import AutoSignIn from '../components/auth/AutoSignIn';
 import { Headline, Section } from '../components/styled/Section.styled';
-import List from '../components/Programs/List';
 import { authOptions } from '../api/auth/[...nextauth]/route';
 import nextFetch from '../api/next-fetch';
+import List from '../components/ui/Programs/List';
 
 const Programs = async () => {
   const session = await getServerSession();

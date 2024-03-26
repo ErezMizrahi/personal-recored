@@ -9,8 +9,8 @@ import { MainContainer } from './components/styled/MainContainer.styled';
 import { Container } from './components/styled/Container.styled';
 import NavigationMenu from './components/NavigationMenu';
 import Theme from './lib/Theme';
-import BreadCrumbs from './components/BreadCrumbs';
 import { authOptions } from './api/auth/[...nextauth]/route';
+import BreadCrumbs from './components/ui/BreadCrumbs';
 
 const inter = Inter({ subsets: ['latin'] })
 

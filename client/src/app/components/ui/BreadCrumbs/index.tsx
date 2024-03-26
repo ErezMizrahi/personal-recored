@@ -2,7 +2,7 @@
 import React from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { BreadCrumbsContainer } from "../styled/Container.styled";
+import { BreadCrumbsContainer } from "../../styled/Container.styled";
 
 export default function index() {
   const path = usePathname();
