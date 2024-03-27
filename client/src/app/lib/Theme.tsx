@@ -7,7 +7,10 @@ const theme = {
         secondary: '#ED5050',
         primary : '#23292D',
         light:"#F4F4F4",
-        
+    },
+    dimenssions: {
+      verticalPadding: 20,
+      horizontalPadding: 10,
     }
 }
 

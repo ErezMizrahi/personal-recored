@@ -3,6 +3,7 @@ import { authOptions } from './api/auth/[...nextauth]/route';
 import { redirect } from 'next/navigation';
 import { MainContainer } from './components/styled/MainContainer.styled';
 import AutoSignIn from './components/auth/AutoSignIn';
+import { Container } from './components/styled/Container.styled';
 
 
 export default async function Home() {
@@ -19,8 +20,8 @@ export default async function Home() {
 
 
   return (
-    <MainContainer>
+    <Container>
       <h1>welcome { session?.user?.name } ... { session?.user.isNew ? 'true' : 'false'} </h1>
-    </MainContainer>
+    </Container>
   )
 }

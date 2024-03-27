@@ -5,17 +5,16 @@ export const SideMenuContainer = styled.div`
 display: flex;
 flex-direction: column;
 align-items: flex-start;
-height: 100%;
+height: calc(100vh - ${props => props.theme.dimenssions.verticalPadding * 2}px); ;
 background-color: ${props => props.theme.colors.primary};
 box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 border-radius:14px;
 max-width: 150px;
 `
 export const SideMenuWrapper = styled.div`
-padding-left : 10px;
-padding-right : 20px;
-height:100%;
-
+  position: sticky;
+  top: 20px;
+  box-sizing: border-box;
 
 `
 interface SideMenuWidthProps {

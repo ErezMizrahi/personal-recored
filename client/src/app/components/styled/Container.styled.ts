@@ -2,11 +2,7 @@
 import styled from "styled-components";
 
 export const Container = styled.main`
-     display: flex;
-    flex-direction: column;
-    flex:1;
-    width: 100%;
-    gap:20px;
+ overflow: scroll;
 `;
 
 export const BreadCrumbsContainer = styled.div`
