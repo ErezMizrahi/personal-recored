@@ -3,7 +3,7 @@ import nextFetch from '@/app/api/next-fetch';
 import { get } from 'http';
 import { getServerSession } from 'next-auth';
 import React from 'react'
-import { Card, CardContainer } from '../../styled/Card.styled';
+import { Card, CardContainer } from '../styled/Card.styled';
 
 interface ListProps {
     array: any[];
@@ -15,7 +15,7 @@ const List = async ({ array } : ListProps) => {
   return (
     <CardContainer>
         {array.map((item, index) => (
-            <Card key={index}>
+            <Card key={index} width={224} height={120}>
                 <h3>{item.name}</h3>
                 <p>{item.endDate}</p>
             </Card>

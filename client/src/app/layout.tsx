@@ -49,7 +49,7 @@ export default async function RootLayout({
     <html lang="en">
       <body className={`${inter.className} ${styles.main}`}>
         <Theme>
-          <MainContainer loggedIn={!session?.user?.isNew} className={inter.className}>
+        <MainContainer $loggedin={!session?.user?.isNew} className={inter.className}>
             <StyledComponentsRegistry>
               <SessionProvider session={session}> 
               { getLayoutBasedOnSession() }

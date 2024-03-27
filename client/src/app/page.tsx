@@ -13,7 +13,7 @@ export default async function Home() {
   }
   
   const isNew = session?.user.isNew;
-  console.log('isNew', isNew);
+  console.log('isNew', session?.user);
   if(isNew) {
     redirect('/auth/signup');
   }

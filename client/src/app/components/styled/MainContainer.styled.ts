@@ -1,9 +1,9 @@
 "use client"
 import styled from "styled-components";
 
-export const MainContainer = styled.div<{loggedIn: boolean}>`
+export const MainContainer = styled.div<{$loggedin: boolean}>`
 display: grid;
-grid-template-columns: ${({ loggedIn }) => loggedIn ? 'auto 1fr' : 'auto'};
+grid-template-columns: ${({ $loggedin }) => $loggedin ? 'auto 1fr' : 'auto'};
 height: 100vh;
 overflow: hidden;
 gap: ${props => props.theme.dimenssions.verticalPadding}px;

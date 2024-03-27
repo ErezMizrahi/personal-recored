@@ -1,10 +1,11 @@
 import { getServerSession } from 'next-auth'
 import React from 'react'
 import AutoSignIn from '../components/auth/AutoSignIn';
-import { Headline, Section } from '../components/styled/Section.styled';
+import { Headline, Section, SubHeadline } from '../components/styled/Section.styled';
 import { authOptions } from '../api/auth/[...nextauth]/route';
 import nextFetch from '../api/next-fetch';
-import List from '../components/ui/Programs/List';
+import List from '../components/ui/List';
+import PRButton from '../components/ui/PRButton';
 
 const Programs = async () => {
   const session = await getServerSession();
@@ -51,7 +52,7 @@ const Programs = async () => {
 }
 
 const programs = await getPrograms();
-
+console.group('programs', programs);
 
   return (
     <div>
@@ -63,60 +64,15 @@ const programs = await getPrograms();
         </Section>
       }
       <Section>
-      <Headline> Create Programs </Headline>
-        {/* <PRButton onAction={clickHandlers.create}>Create</PRButton> */}
-      </Section>
-      <Section>
-      <Headline> Create Programs </Headline>
-        {/* <PRButton onAction={clickHandlers.create}>Create</PRButton> */}
-      </Section>
-      <Section>
-      <Headline> Create Programs </Headline>
-        {/* <PRButton onAction={clickHandlers.create}>Create</PRButton> */}
-      </Section>
-      <Section>
-      <Headline> Create Programs </Headline>
-        {/* <PRButton onAction={clickHandlers.create}>Create</PRButton> */}
-      </Section>
-      <Section>
-      <Headline> Create Programs </Headline>
-        {/* <PRButton onAction={clickHandlers.create}>Create</PRButton> */}
-      </Section>
-      <Section>
-      <Headline> Create Programs </Headline>
-        {/* <PRButton onAction={clickHandlers.create}>Create</PRButton> */}
-      </Section>
-      <Section>
-      <Headline> Create Programs </Headline>
-        {/* <PRButton onAction={clickHandlers.create}>Create</PRButton> */}
-      </Section>
-      <Section>
-      <Headline> Create Programs </Headline>
-        {/* <PRButton onAction={clickHandlers.create}>Create</PRButton> */}
-      </Section>
-      <Section>
-      <Headline> Create Programs </Headline>
-        {/* <PRButton onAction={clickHandlers.create}>Create</PRButton> */}
-      </Section>
-      <Section>
-      <Headline> Create Programs </Headline>
-        {/* <PRButton onAction={clickHandlers.create}>Create</PRButton> */}
-      </Section>
-      <Section>
-      <Headline> Create Programs </Headline>
-        {/* <PRButton onAction={clickHandlers.create}>Create</PRButton> */}
-      </Section>
-      <Section>
-      <Headline> Create Programs </Headline>
-        {/* <PRButton onAction={clickHandlers.create}>Create</PRButton> */}
-      </Section>
-      <Section>
-      <Headline> Create Programs </Headline>
-        {/* <PRButton onAction={clickHandlers.create}>Create</PRButton> */}
-      </Section>
-      <Section>
-      <Headline> Create Programs </Headline>
-        {/* <PRButton onAction={clickHandlers.create}>Create</PRButton> */}
+        <Headline> Create Programs </Headline>
+        <p>you can choose to create a custom program or use one of our templates</p>
+        <PRButton>Create</PRButton>
+
+        <Section>
+          <SubHeadline> Templates </SubHeadline>
+          <p>a template is just a blueprint. you can customize it a you wish.</p>
+        </Section>
+
       </Section>
     </div>
   )

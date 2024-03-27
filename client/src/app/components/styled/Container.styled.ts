@@ -2,7 +2,10 @@
 import styled from "styled-components";
 
 export const Container = styled.main`
- overflow: scroll;
+display: grid;
+grid-template-rows: auto 1fr;
+gap: 20px;
+overflow: hidden;
 `;
 
 export const BreadCrumbsContainer = styled.div`
