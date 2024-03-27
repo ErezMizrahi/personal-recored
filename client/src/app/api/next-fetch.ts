@@ -6,12 +6,15 @@ interface FetchAttr {
     body?: any;
 }
 
-type Service = 'auth'
-
+type Service = 'auth' | 'programs' | 'exercises';
 
 const servicePortsMap: Record<Service, number> = {
-    'auth': 4000
+    'auth': 4000,
+    'programs': 4001,
+    'exercises': 4002
 }
+
+servicePortsMap['auth']
 
 export default async ({service, route, method = "get", headersMap, body}: FetchAttr) => {
     if(typeof window === 'undefined') {

@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useState } from "react";
-import { CinputText } from "../styled/CInputText.styled";
-import { debounce } from "../../utils/utils";
+import { CinputText } from "../../styled/CInputText.styled";
+import { debounce } from "../../../utils/utils";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import "./index.css";
 

@@ -6,8 +6,13 @@ const theme = {
         dark : '#23292D',
         secondary: '#ED5050',
         primary : '#23292D',
-        background:"#F4F4F4",
-        
+        light:"#F4F4F4",
+        //suggested colors for cards based on the theme
+        card:"#FCFCFC",
+    },
+    dimenssions: {
+      verticalPadding: 20,
+      horizontalPadding: 10,
     }
 }
 

@@ -53,21 +53,21 @@ services:
     ports:
       - "4000:4000"
 
-  workouts:
+  programs:
     restart: always
     build:
-      context: ./backend/workouts
+      context: ./backend/programs
       dockerfile: Dockerfile
     command: npm start
     env_file:
-     - ./backend/workouts/.env
+     - ./backend/programs/.env
     depends_on:
       - rabbitmq
       - mongodb
     volumes:
-      - ./backend/workouts:/usr/src/app
+      - ./backend/programs:/usr/src/app
       - /usr/src/app/node_modules
-    hostname: workouts
+    hostname: programs
     ports:
       - "4001:4001"
 

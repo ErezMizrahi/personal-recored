@@ -1,10 +1,8 @@
 import React from "react";
-import UserDeatilsIcon from "./UserDeatilsIcon";
 import { SideMenuContainer, SideMenuWrapper } from "./styled/SideMenu.styled";
-import Link from "next/link";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../api/auth/[...nextauth]/route";
-import AutoSignIn from "./AutoSignIn";
+import AutoSignIn from "./auth/AutoSignIn";
 import SideMenu from "./SideMenu";
 
 const NavigationMenu = async () => {
@@ -13,9 +11,6 @@ const NavigationMenu = async () => {
     return <AutoSignIn />;
   }
 
-  // if(session?.user.isNew) {
-  //     return null;
-  // }
 
   return (
     <SideMenuWrapper>

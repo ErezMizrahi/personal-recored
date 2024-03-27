@@ -21,3 +21,8 @@ export const deleteProgramById = async (req: Request, res: Response) => {
     await workoutProgramService.deleteProgramById(req.currentInternalUser!, req.params.programId);
     res.status(204).send();
 }
+
+export const getTemplates = async (req: Request, res: Response) => {
+    const templates = await workoutProgramService.getTemplates();
+    res.status(200).json(templates);
+}

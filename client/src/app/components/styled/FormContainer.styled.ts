@@ -15,10 +15,19 @@ export const Form = styled.form`
     gap: 10px;
     color:  ${props => props.theme.colors.light};
     width: 100%;
+
+    //style for the label
+    input {
+        color:  ${props => props.theme.colors.dark};
+    }
+
+    button {
+        margin: auto;
+    }
 `;
 
 export const FormInput = styled.input`
-    background-color: ${props => props.theme.colors.lightest};
+    background-color: ${props => props.theme.colors.light};
     color: ${props => props.theme.colors.light};
     padding: 0.55em;
     border-radius: 5px;

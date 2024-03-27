@@ -1,0 +1,101 @@
+[
+    {
+        "name": "5 X 5",
+        "endDate": "",
+        "workouts": [
+            {
+                "name": "a",
+                "daysOfTheWeek": [
+                    "sunday", "thursday"
+                ],
+                "exercises": [
+                    {
+                        "name": "Barbell back squat",
+                        "sets": 5,
+                        "reps": 5,
+                        "weight": 0,
+                        "rest": 120
+                    },
+                    {
+                        "name": "Barbell Bench Press",
+                        "sets": 5,
+                        "reps": 5,
+                        "weight": 0,
+                        "rest": 120
+                    },
+                    {
+                        "name": "Barbell Row",
+                        "sets": 5,
+                        "reps": 5,
+                        "weight": 0,
+                        "rest": 120
+                    },
+                    {
+                        "name": "Ab Rollout",
+                        "sets": 3,
+                        "reps": 8,
+                        "weight": 0,
+                        "rest": 60
+                    },
+                    {
+                        "name": "Lying cable triceps extension",
+                        "sets": 3,
+                        "reps": 15,
+                        "weight": 0,
+                        "rest": 60
+                    }
+                ]
+            },
+            {
+                "name": "b",
+                "daysOfTheWeek": [
+                    "monday", "friday"
+                ],
+                "exercises": [
+                    {
+                        "name": "Barbell front squat",
+                        "sets": 5,
+                        "reps": 5,
+                        "weight": 0,
+                        "rest": 120
+                    },
+                    {
+                        "name": "Military press",
+                        "sets": 5,
+                        "reps": 5,
+                        "weight": 0,
+                        "rest": 120
+                    },
+                    {
+                        "name": "Barbell Deadlift",
+                        "sets": 5,
+                        "reps": 5,
+                        "weight": 0,
+                        "rest": 120
+                    },
+                    {
+                        "name": "Pull-up netural grip",
+                        "sets": 3,
+                        "reps": 5,
+                        "weight": 0,
+                        "rest": 60
+                    },
+                    {
+                        "name": "EZ bar curl",
+                        "sets": 3,
+                        "reps": 12,
+                        "weight": 0,
+                        "rest": 60
+                    },
+                    {
+                        "name": "Hanging leg raise",                        
+                        "sets": 3,
+                        "reps": 8,
+                        "weight": 0,
+                        "rest": 60
+                    }
+                ]
+            }
+        ]
+    }
+]

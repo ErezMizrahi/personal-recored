@@ -10,6 +10,6 @@ outline: none;
 border: 1px solid ${props => props.theme.colors.primary};
 cursor: pointer;
 background-color:${props => props.theme.colors.secondary};
-height:${props => props?.style?.height ? props.style.height : "auto"}
-
+height:${props => props?.style?.height ? props.style.height : "auto"};
+width:${props => props?.style?.width ? props.style.width : "auto"};
 `;
