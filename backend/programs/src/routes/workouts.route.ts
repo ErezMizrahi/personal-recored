@@ -1,13 +1,15 @@
 import { Router } from "express";
 import { currentGoogleUser, requireAuth, validateRquest } from "@erezmiz-pr/pr-common";
-import { createProgram, getCurrentUserPrograms, getCurrentUserWorkouts, deleteProgramById } from "../controllers/workouts.controller";
+import { createProgram, getCurrentUserPrograms, getCurrentUserWorkouts, deleteProgramById, getTemplates } from "../controllers/workouts.controller";
 import { requireAppUser } from "../middlewares/app.user";
 import { body, param } from "express-validator";
 
 const router = Router();
 const validationMiddleware = [currentGoogleUser, requireAuth, requireAppUser];
 
-router.get('/current', [...validationMiddleware], getCurrentUserPrograms);
+router.get('/', [...validationMiddleware], getCurrentUserPrograms);
+
+router.get('/templates', [...validationMiddleware], getTemplates);
 
 router.get('/:programId/workouts', [...validationMiddleware], [
     param('programId')

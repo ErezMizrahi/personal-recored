@@ -3,7 +3,6 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import SessionProvider from './components/SessionProvider';
 import { getServerSession } from 'next-auth';
-import styles from './page.module.css'
 import StyledComponentsRegistry from './lib/registry'
 import { MainContainer } from './components/styled/MainContainer.styled';
 import { Container } from './components/styled/Container.styled';
@@ -29,7 +28,7 @@ export default async function RootLayout({
     //not a new user
     if(session && !session.user.isNew) {
       return <>
-         <NavigationMenu/> 
+            <NavigationMenu/> 
             <Container>
               <BreadCrumbs/> 
               {children}
@@ -47,15 +46,15 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <body className={`${inter.className} ${styles.main}`}>
+      <body>
         <Theme>
-        <MainContainer $loggedin={!session?.user?.isNew} className={inter.className}>
-            <StyledComponentsRegistry>
-              <SessionProvider session={session}> 
-              { getLayoutBasedOnSession() }
-              </SessionProvider> 
-            </StyledComponentsRegistry>
-          </MainContainer>
+          <StyledComponentsRegistry>
+            <MainContainer $loggedin={!session?.user?.isNew} className={inter.className}>
+                <SessionProvider session={session}> 
+                { getLayoutBasedOnSession() }
+                </SessionProvider> 
+            </MainContainer>
+          </StyledComponentsRegistry>
         </Theme>
         </body>
     </html>

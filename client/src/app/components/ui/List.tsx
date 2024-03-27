@@ -4,21 +4,23 @@ import { get } from 'http';
 import { getServerSession } from 'next-auth';
 import React from 'react'
 import { Card, CardContainer } from '../styled/Card.styled';
+import Link from 'next/link';
 
 interface ListProps {
     array: any[];
 }
 
 const List = async ({ array } : ListProps) => {
-   
-
   return (
     <CardContainer>
         {array.map((item, index) => (
-            <Card key={index} width={224} height={120}>
+          <Link href={`/programs/${item.program_id}`} key={index}>
+            <Card width={224} height={120}>
                 <h3>{item.name}</h3>
                 <p>{item.endDate}</p>
             </Card>
+          </Link>
+          
         ) 
     )}
     </CardContainer>

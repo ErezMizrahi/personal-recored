@@ -41,7 +41,7 @@ const SideMenu = () => {
   };
 
   return (
-    <SideMenuWidth width={isOpen ? "150px" : "50px"}>
+    <SideMenuWidth>
       {/* <button onClick={() => setIsOpen(prev => !prev)}>{isOpen ? 'close' : 'open'}</button> */}
 
       <UserDeatilsIcon session={session} />

@@ -9,25 +9,25 @@ height: calc(100vh - ${props => props.theme.dimenssions.verticalPadding * 2}px);
 background-color: ${props => props.theme.colors.primary};
 box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 border-radius:14px;
-max-width: 150px;
+/* max-width: 150px; */
 `
 export const SideMenuWrapper = styled.div`
-  position: sticky;
+  /* position: sticky;
   top: 20px;
-  box-sizing: border-box;
+  box-sizing: border-box; */
 
 `
-interface SideMenuWidthProps {
-    width: string;
-}
-export const SideMenuWidth = styled.div<SideMenuWidthProps>`
-width: ${props => props.width};
+export const SideMenuWidth = styled.div`
+width: 100%;
 transition-property: width;
 transition-duration: 0.5s;
 transition-timing-function: linear;
 position:relative;
 height:100%;
 padding-top:40px;
+display: flex;
+flex-direction: column;
+align-items: center;
 
 `
 
@@ -37,6 +37,7 @@ display: flex;
 flex-direction: column;
 gap: 10px;
 margin-top: 2em;
+width: 100%;
 `
 
 

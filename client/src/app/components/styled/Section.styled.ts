@@ -23,15 +23,3 @@ export const SubHeadline = styled.h3`
     }
 `;
 
-export const Section = styled.section`
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    padding-bottom: 30px;
-    align-items: baseline;
-
-    > p {
-        color: ${props => props.theme.colors.primary};
-    }
-    
-`

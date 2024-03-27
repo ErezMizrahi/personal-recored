@@ -1,5 +1,7 @@
 import { InternalUserDoc } from "../models/internal-user.model";
 import { Program, ProgramDoc, WorkoutAttrs } from "../models/program.model";
+import fs from 'fs/promises';
+import path from 'path';
 
 class WorkoutProgramService {
     private async addProgramToUser(program: ProgramDoc, user: InternalUserDoc) {
@@ -50,6 +52,16 @@ class WorkoutProgramService {
             .filter(program => program._id.toString() === programId)
             .map(program =>  program.workouts);
         return workouts?.flat();
+    }
+
+    async getTemplates() {
+        try {
+            const templates = JSON.parse( await fs.readFile(path.resolve('src/services/data/templates.json'), 'utf-8') );
+            return templates;
+        } catch (e) {   
+            console.error(e);
+            return [];
+        }
     }
 }
 

@@ -3,7 +3,9 @@ import { authOptions } from './api/auth/[...nextauth]/route';
 import { redirect } from 'next/navigation';
 import { MainContainer } from './components/styled/MainContainer.styled';
 import AutoSignIn from './components/auth/AutoSignIn';
-import { Container } from './components/styled/Container.styled';
+import { Container, DashboardContainer } from './components/styled/Container.styled';
+import { Card } from './components/styled/Card.styled';
+import { Headline } from './components/styled/Section.styled';
 
 
 export default async function Home() {
@@ -13,7 +15,6 @@ export default async function Home() {
   }
   
   const isNew = session?.user.isNew;
-  console.log('isNew', session?.user);
   if(isNew) {
     redirect('/auth/signup');
   }
@@ -21,7 +22,15 @@ export default async function Home() {
 
   return (
     <Container>
-      <h1>welcome { session?.user?.name } ... { session?.user.isNew ? 'true' : 'false'} </h1>
+      <Headline>Track your progress!</Headline>
+      <DashboardContainer>
+        <Card width={0} height={0} />
+        <Card width={0} height={0} />
+        <Card width={0} height={0} />
+        <Card width={0} height={0} />
+        <Card width={0} height={0} />
+        <Card width={0} height={0} />
+      </DashboardContainer>
     </Container>
-  )
+    )
 }
